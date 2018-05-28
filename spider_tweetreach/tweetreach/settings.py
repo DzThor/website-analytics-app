@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for foller project
+# Scrapy settings for tweetreach project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -9,16 +9,17 @@
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
-BOT_NAME = 'foller'
+BOT_NAME = 'tweetreach'
 
-SPIDER_MODULES = ['foller.spiders']
-NEWSPIDER_MODULE = 'foller.spiders'
+SPIDER_MODULES = ['tweetreach.spiders']
+NEWSPIDER_MODULE = 'tweetreach.spiders'
 
 ITEM_PIPELINES = {
-    'foller.pipelines.JsonPipeline': 300
+    'tweetreach.pipelines.JsonPipeline': 300
 }
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'foller (+http://www.yourdomain.com)'
+#USER_AGENT = 'tweetreach (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -49,13 +50,13 @@ COOKIES_ENABLED = False
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 #SPIDER_MIDDLEWARES = {
-#    'foller.middlewares.FollerSpiderMiddleware': 543,
+#    'tweetreach.middlewares.TweetreachSpiderMiddleware': 543,
 #}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #DOWNLOADER_MIDDLEWARES = {
-#    'foller.middlewares.FollerDownloaderMiddleware': 543,
+#    'tweetreach.middlewares.TweetreachDownloaderMiddleware': 543,
 #}
 
 # Enable or disable extensions
@@ -67,7 +68,7 @@ COOKIES_ENABLED = False
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 #ITEM_PIPELINES = {
-#    'foller.pipelines.FollerPipeline': 300,
+#    'tweetreach.pipelines.TweetreachPipeline': 300,
 #}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
