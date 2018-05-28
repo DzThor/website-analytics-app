@@ -18,9 +18,9 @@ class TweetreachSpider(CrawlSpider):
         
         tw_item = TweetreachItem()
 
-        tw_item['username'] = response.xpath('//div[@class="query"]').extract_first()
-        tw_item['estimated_reach'] = response.xpath('//div[@class="reach_score data_number"]').extract_first()
-        tw_item['impressions'] =response.xpath('//div[@class="exposure_impressions data_number"]').extract_first()
-        tw_item['top_contributors'] = response.xpath('//div[@class="number_box mini show_tooltip" or @class="info"]').extract_first()[0].split("//s")
+        tw_item['username'] = response.xpath('//div[@class="query"]/text()').extract_first()
+        tw_item['estimated_reach'] = response.xpath('//div[@class="reach_score data_number"]/text()').extract_first()
+        tw_item['impressions'] =response.xpath('//div[@class="exposure_impressions data_number"]/text()').extract_first()
+        tw_item['top_contributors'] = response.xpath('//div[@class="number_box mini show_tooltip" or @class="info"]/span[@class = "number"]/text()').extract_first()
         yield tw_item
         
