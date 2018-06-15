@@ -89,15 +89,6 @@ class FollerDownloaderMiddleware(object):
         searchBar.send_keys(Keys.RETURN)
         time.sleep(15)
 
-
-        
-#        driver.find_element_by_xpath('//form[@class="account-tracking-form form-active"]/div/input[@id="search"]').click()
-#        searchElement = driver.find_element_by_xpath('//form[@class="account-tracking-form form-active"]/div/input[@id="search"]')
-#        searchElement.send_keys("Stargate")
-#        
-#        time.sleep(2)
-
-
         body = driver.page_source
         currentUrl = driver.current_url
         driver.close()
