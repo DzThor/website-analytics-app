@@ -6,6 +6,11 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+from scrapy.http import HtmlResponse
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import time
+
 
 
 class KeyholeSpiderMiddleware(object):
@@ -72,13 +77,33 @@ class KeyholeDownloaderMiddleware(object):
         # Called for each request that goes through the downloader
         # middleware.
 
-        # Must either:
-        # - return None: continue processing this request
-        # - or return a Response object
-        # - or return a Request object
-        # - or raise IgnoreRequest: process_exception() methods of
-        #   installed downloader middleware will be called
-        return None
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--window-size=1920x1080")
+
+        driver = webdriver.Chrome(chrome_options=chrome_options)
+
+        driver.get('http://keyhole.co/')
+        
+        driver.find_element_by_xpath('/html/body/div[1]/main/section[1]/div/div/div/div/a[2]').click()
+        
+        time.sleep(2)
+
+        driver.find_element_by_xpath('//form[@class="account-tracking-form form-active"]/div/input[@id="search"]').click()
+        searchElement = driver.find_element_by_xpath('//form[@class="account-tracking-form form-active"]/div/input[@id="search"]')
+        searchElement.send_keys("Stargate")
+        
+        time.sleep(2)
+
+        driver.find_element_by_xpath('//input[@id="letsgo"]').click()
+        
+        time.sleep(5)
+
+        body = driver.page_source
+        currentUrl = driver.current_url
+        driver.close()
+
+        return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.
