@@ -101,4 +101,4 @@ ENV/
 .mypy_cache/
 
 # JSON lines
-.jl
+*.jl
