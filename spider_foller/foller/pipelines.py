@@ -5,12 +5,20 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
-import json
+import json, os
 
 class JsonPipeline(object):
 
+    filename = 'foller/items.jl'
+
     def open_spider(self, spider):
-        self.file = open('items.jl', 'w')
+
+        try:
+            os.remove(self.filename)
+        except OSError:
+            pass
+            
+        self.file = open(self.filename, 'w')
 
     def close_spider(self, spider):
         self.file.close()

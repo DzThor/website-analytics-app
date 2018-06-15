@@ -6,11 +6,19 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 
-import json
+import json, os
 
 class JsonPipeline(object):
 
+    filename = 'tweetreach/items.jl'
+
     def open_spider(self, spider):
+
+        try:
+            os.remove(self.filename)
+        except OSError:
+            pass
+
         self.file = open('items.jl', 'w')
 
     def close_spider(self, spider):

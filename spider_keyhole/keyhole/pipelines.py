@@ -6,11 +6,18 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import json
+import os
 
 class JsonPipeline(object):
+ 
 
     def open_spider(self, spider):
-        self.file = open('items.jl', 'w')
+        try:
+            os.remove('keyhole/items.jl')
+        except OSError:
+            pass
+        
+        self.file = open('keyhole/items.jl', 'w')
 
     def close_spider(self, spider):
         self.file.close()
