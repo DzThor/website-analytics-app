@@ -9,7 +9,8 @@ import json, os
 
 class JsonPipeline(object):
 
-    filename = 'foller/items.jl'
+    def __init__(self):
+        self.filename = 'foller/items.jl'
 
     def open_spider(self, spider):
 
