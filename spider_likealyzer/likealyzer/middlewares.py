@@ -88,7 +88,7 @@ class LikealyzerDownloaderMiddleware(object):
         #deben ser páginas, no usuarios normales, ver como comprobarlo
 
         searchBar = driver.find_element_by_xpath('//input')
-        searchBar.send_keys('Stargate')
+        searchBar.send_keys('Pokemon')
         time.sleep(3)
 
         driver.find_element_by_xpath('//*[@id="__next"]/div/div/div/div[1]/div[2]/div/div/div[3]/div/div[2]/div[1]').click()

@@ -25,6 +25,8 @@ class KeyholeSpider(CrawlSpider):
         
         likealyzer = LikealyzerItem()
 
-        likealyzer['name'] = response.xpath('//a[@class="css-ovuman"]/text()').extract()
+        likealyzer['name'] = response.xpath('//a[@class="css-ovuman"]/text()').extract_first()
+        likealyzer['summary'] = response.xpath('//div[@class="css-e80q00"]/span/text()').extract_first()
+        likealyzer['comments'] = response.xpath('//ul[@class="css-6w6u3k"]/li/text()').extract()
 
         yield likealyzer

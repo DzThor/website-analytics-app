@@ -25,15 +25,16 @@ class KeyholeSpider(CrawlSpider):
         
         keyhole = KeyholeItem()
         
-        keyhole['name'] = response.xpath('/html/body/div[1]/section/div[2]/main/figure[1]/div/div[1]/div/div[2]/div/a/p/text()').extract()[-1]
-        keyhole['posts'] = response.xpath('//div[@class="posts"]/p/text()').extract()[-1]
-        keyhole['followers'] = response.xpath('//div[@class="followers"]/p/text()').extract()[-1]
-        keyhole['following'] = response.xpath('//div[@class="following"]/p/text()').extract()[-1]
-        keyhole['avgRetweets'] = response.xpath('//div[@class="avg-likes"]/p/text()').extract()[-1]
-        keyhole['avgLikes'] = response.xpath('//div[@class="avg-retweets"]/p/text()').extract()[-1]
-        keyhole['engRate'] = response.xpath('//div[@class="avg-engRate"]/p/text()').extract()[-1]
-        keyhole['website'] = response.xpath('//a[@class="website"]/text()').extract()[-1]
+        keyhole['name'] = response.xpath('/html/body/div[1]/section/div[2]/main/figure[1]/div/div[1]/div/div[2]/div/a/p/text()').extract_first()
+        keyhole['posts'] = response.xpath('//div[@class="posts"]/p/text()').extract_first()
+        keyhole['followers'] = response.xpath('//div[@class="followers"]/p/text()').extract_first()
+        keyhole['following'] = response.xpath('//div[@class="following"]/p/text()').extract_first()
+        keyhole['avgRetweets'] = response.xpath('//div[@class="avg-likes"]/p/text()').extract_first()
+        keyhole['avgLikes'] = response.xpath('//div[@class="avg-retweets"]/p/text()').extract_first()
+        keyhole['engRate'] = response.xpath('//div[@class="avg-engRate"]/p/text()').extract_first()
+        keyhole['website'] = response.xpath('//a[@class="website"]/text()').extract_first()
+        
 
-        #keyhole['bio'] = updatedPage.xpath('//p[@class="bio"]/span/text()').extract()
+        #keyhole['bio'] = updatedPage.xpath('//p[@class="bio"]/span/text()').extract_first()
 
         yield keyhole
