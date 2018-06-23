@@ -17,7 +17,7 @@ class LikealyzerItem(scrapy.Item):
     aboutMetric = scrapy.Field()
     activityMetric = scrapy.Field()
     responseMetric = scrapy.Field()
-    compromiseMEtric = scrapy.Field()
+    compromiseMetric = scrapy.Field()
     userPhotoAvailable = scrapy.Field()
     aboutAvailable = scrapy.Field()
     usernameAvailable = scrapy.Field()
