@@ -77,6 +77,7 @@ class FollerDownloaderMiddleware(object):
         
         chrome_options = Options()
         chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--lang=en")
         chrome_options.add_argument("--window-size=1920x1080")
 
         driver = webdriver.Chrome(chrome_options=chrome_options)

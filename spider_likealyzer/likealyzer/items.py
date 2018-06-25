@@ -23,9 +23,14 @@ class LikealyzerItem(scrapy.Item):
     usernameAvailable = scrapy.Field()
     achievementsQuality = scrapy.Field()
     contactInfoAvailable = scrapy.Field()
-    phoneNumberAvailable = scrapy.Field()
-    webpageAvailable = scrapy.Field()
-    mailAvailable = scrapy.Field()
+    #elementsUnavailable = scrapy.Field()
+    #elementsAvailable = scrapy.Field()
+    
+    phoneAvailable = scrapy.Field()
+    websiteAvailable = scrapy.Field()
+    emailAvailable = scrapy.Field()
+
+
     locationAvailable = scrapy.Field()
     percentageOfPhotos = scrapy.Field()
     percentageOfNotes = scrapy.Field()
