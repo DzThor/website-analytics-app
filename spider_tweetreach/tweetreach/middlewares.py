@@ -76,6 +76,9 @@ class TweetreachDownloaderMiddleware(object):
         # Called for each request that goes through the downloader
         # middleware.
 
+        username = "dzthor96"
+        password = "jeje"
+
         chrome_options = Options()
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--lang=en")
@@ -100,10 +103,10 @@ class TweetreachDownloaderMiddleware(object):
 
         #usuario //*[@id="username_or_email"]
         searchElement = driver.find_element_by_xpath('//*[@id="username_or_email"]')
-        searchElement.send_keys("dzthor96")
+        searchElement.send_keys(username)
         #pass //*[@id="password"]
         searchElement = driver.find_element_by_xpath('//*[@id="password"]')
-        searchElement.send_keys("nomejodas1")
+        searchElement.send_keys(password)
         
         #boton //*[@id="allow"]
         driver.find_element_by_xpath('//*[@id="allow"]').click()
