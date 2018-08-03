@@ -15,7 +15,8 @@ SPIDER_MODULES = ['tweetreach.spiders']
 NEWSPIDER_MODULE = 'tweetreach.spiders'
 
 ITEM_PIPELINES = {
-    'tweetreach.pipelines.MongoDBPipeline': 300
+    #'tweetreach.pipelines.MongoDBPipeline': 300
+    'tweetreach.pipelines.JsonPipeline' : 300
     }
 
 # Database parameters
@@ -62,9 +63,9 @@ COOKIES_ENABLED = False
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'tweetreach.middlewares.TweetreachDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    'tweetreach.middlewares.TweetreachDownloaderMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html

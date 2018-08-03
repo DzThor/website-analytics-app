@@ -6,6 +6,10 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+from scrapy.http import HtmlResponse
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+import time
 
 
 class TweetreachSpiderMiddleware(object):
@@ -72,13 +76,45 @@ class TweetreachDownloaderMiddleware(object):
         # Called for each request that goes through the downloader
         # middleware.
 
-        # Must either:
-        # - return None: continue processing this request
-        # - or return a Response object
-        # - or return a Request object
-        # - or raise IgnoreRequest: process_exception() methods of
-        #   installed downloader middleware will be called
-        return None
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--lang=en")
+        chrome_options.add_argument("--window-size=1920x1080")
+
+        driver = webdriver.Chrome(chrome_options=chrome_options)
+
+        driver.get('https://tweetreach.com/')
+        
+        driver.find_element_by_xpath('//input[@class="search-form__input"]').click()
+        searchElement = driver.find_element_by_xpath('//input[@class="search-form__input"]')
+        searchElement.send_keys("Stargate")
+        
+        time.sleep(2)
+
+        driver.find_element_by_xpath('//input[@class="search-form__button"]').click()
+        
+        time.sleep(5)
+
+
+        #Introducir cosas de twitter
+
+        #usuario //*[@id="username_or_email"]
+        searchElement = driver.find_element_by_xpath('//*[@id="username_or_email"]')
+        searchElement.send_keys("dzthor96")
+        #pass //*[@id="password"]
+        searchElement = driver.find_element_by_xpath('//*[@id="password"]')
+        searchElement.send_keys("nomejodas1")
+        
+        #boton //*[@id="allow"]
+        driver.find_element_by_xpath('//*[@id="allow"]').click()
+
+        time.sleep(7)
+
+        body = driver.page_source
+        currentUrl = driver.current_url
+        driver.close()
+
+        return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.

@@ -7,11 +7,10 @@ class TweetreachSpider(CrawlSpider):
     name = 'tweetreach'
     
     def start_requests(self):
-        allowed_domains = ['https://tweetreach.com']
-        urls = ['https://tweetreach.com/reports/21254717']
+
+        url = 'https://tweetreach.com'
         
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+        yield scrapy.Request(url=url, callback=self.parse)
 
 
     def parse(self, response):
