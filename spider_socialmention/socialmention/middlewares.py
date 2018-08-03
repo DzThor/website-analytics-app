@@ -6,6 +6,7 @@
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
 from scrapy import signals
+import xml.etree.ElementTree
 
 
 class SocialmentionSpiderMiddleware(object):
@@ -27,6 +28,9 @@ class SocialmentionSpiderMiddleware(object):
         # Should return None or raise an exception.
         return None
 
+    def remove_tags(self, text):
+        return 
+
     def process_spider_output(self, response, result, spider):
         # Called with the results returned from the Spider, after
         # it has processed the response.
@@ -34,6 +38,7 @@ class SocialmentionSpiderMiddleware(object):
         # Must return an iterable of Request, dict or Item objects.
         for i in result:
             yield i
+
 
     def process_spider_exception(self, response, exception, spider):
         # Called when a spider or process_spider_input() method

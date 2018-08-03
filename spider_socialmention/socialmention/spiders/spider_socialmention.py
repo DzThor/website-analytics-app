@@ -10,11 +10,23 @@ class SocialmentionSpider(CrawlSpider):
     name = 'socialmention'
 
     def start_requests(self):
-        allowed_domains = ['socialmention.com']
+
         url = 'http://socialmention.com/search?q=iphone+apps'
 
         yield scrapy.Request(url=url, callback=self.parse)
 
+
+    def eraseDifferentLevelTags(self,response,expression):
+        
+        cleanTags = list()
+
+        for element in response.xpath(expression):
+            if(element.xpath('./a')):
+                cleanTags.append(element.xpath('a/text()').extract_first())
+            else:
+                cleanTags.append(element.xpath('text()').extract_first())
+
+        return cleanTags
 
     def parse(self, response):
             
@@ -25,9 +37,17 @@ class SocialmentionSpider(CrawlSpider):
         socialIt['sentimentRatio'] = response.xpath('//div[@class="score"]/text()')[1].extract()
         socialIt['passion'] = response.xpath('//div[@class="score"]/text()')[2].extract()
         socialIt['reach'] = response.xpath('//div[@class="score"]/text()')[3].extract()
-        socialIt['timePerMention'] = response.xpath('normalize-space(//div[@class="box grey text"]/text())')[0].extract()
-        socialIt['lastMention'] = response.xpath('normalize-space(//div[@class="box grey text"]/text())')[1].extract()
-        socialIt['uniqueAuthors'] = response.xpath('normalize-space(//div[@class="box grey text"]/text())')[2].extract()
-        socialIt['retweets'] = response.xpath('normalize-space(//div[@class="box grey text"]/text())')[3].extract()
+        socialIt['timePerMention'] = response.xpath('//div[@class="box grey text"]/text()')[0].extract()
+        socialIt['lastMention'] = response.xpath('//div[@class="box grey text"]/text()')[1].extract()
+        socialIt['uniqueAuthors'] = response.xpath('//div[@class="box grey text"]/text()')[2].extract()
+        socialIt['retweets'] = response.xpath('//div[@class="box grey text"]/text()')[3].extract()
 
+        #Llamamos una función para sacar el contenido de los nodos, ya que contienen distintos niveles
+
+        socialIt['sentimentValues'] = self.eraseDifferentLevelTags(response,'//h4[contains(text(),"Sentiment")]/following-sibling::table//td[contains(@width,25) or contains(@width,90)]')
+        socialIt['keywordsValues'] = self.eraseDifferentLevelTags(response,'//h4[contains(text(),"Top Keywords")]/following-sibling::table//*[contains(@width,25) or contains(@width,90)]')
+        socialIt['usersValues'] = self.eraseDifferentLevelTags(response,'//h4[contains(text(),"Top Users")]/following-sibling::table//*[contains(@width,25) or contains(@width,90)]')
+        socialIt['hashtagsValues'] = self.eraseDifferentLevelTags(response,'//h4[contains(text(),"Top Hashtags")]/following-sibling::table//*[contains(@width,25) or contains(@width,90)]')
+
+        
         yield socialIt

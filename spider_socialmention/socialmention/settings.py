@@ -14,6 +14,17 @@ BOT_NAME = 'socialmention'
 SPIDER_MODULES = ['socialmention.spiders']
 NEWSPIDER_MODULE = 'socialmention.spiders'
 
+ITEM_PIPELINES = {
+    'socialmention.pipelines.MongoDBPipeline': 300
+    }
+
+# Database parameters
+
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DB = "website-analytics"
+MONGODB_COLLECTION = "scraped-data"
+
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'socialmention (+http://www.yourdomain.com)'
@@ -61,13 +72,6 @@ COOKIES_ENABLED = False
 #EXTENSIONS = {
 #    'scrapy.extensions.telnet.TelnetConsole': None,
 #}
-
-# Configure item pipelines
-# See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-    'socialmention.pipelines.JsonPipeline': 300,
-}
-
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html

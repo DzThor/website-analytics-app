@@ -14,9 +14,17 @@ BOT_NAME = 'keyhole'
 SPIDER_MODULES = ['keyhole.spiders']
 NEWSPIDER_MODULE = 'keyhole.spiders'
 
+
 ITEM_PIPELINES = {
-    'keyhole.pipelines.JsonPipeline': 300
-}
+    'keyhole.pipelines.MongoDBPipeline': 300
+    }
+
+# Database parameters
+
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DB = "website-analytics"
+MONGODB_COLLECTION = "scraped-data"
 
 #SPLASH_URL =
 

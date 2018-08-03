@@ -23,4 +23,13 @@ class SocialmentionItem(scrapy.Item):
     keywordsList = scrapy.Field()
     usersList = scrapy.Field()
     hashtagsList = scrapy.Field()
+    sentimentValues = scrapy.Field()
+    keywordsValues = scrapy.Field()
+    usersValues = scrapy.Field()
+    hashtagsValues = scrapy.Field()
 
+        #box grey text
+        #//h4[contains(text(),"Sentiment")]/following-sibling::table//*[contains(@width,25) or contains(@width,90)]
+        #//h4[contains(text(),"Top Keywords")]/following-sibling::table//*[contains(@width,25) or contains(@width,90)]
+        #//h4[contains(text(),"Top Users")]/following-sibling::table//*[contains(@width,25) or contains(@width,90)]
+        #//h4[contains(text(),"Top Hashtags")]/following-sibling::table//*[contains(@width,25) or contains(@width,90)]

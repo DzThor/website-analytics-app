@@ -15,8 +15,15 @@ SPIDER_MODULES = ['tweetreach.spiders']
 NEWSPIDER_MODULE = 'tweetreach.spiders'
 
 ITEM_PIPELINES = {
-    'tweetreach.pipelines.JsonPipeline': 300
-}
+    'tweetreach.pipelines.MongoDBPipeline': 300
+    }
+
+# Database parameters
+
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DB = "website-analytics"
+MONGODB_COLLECTION = "scraped-data"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'tweetreach (+http://www.yourdomain.com)'

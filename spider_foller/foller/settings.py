@@ -14,9 +14,21 @@ BOT_NAME = 'foller'
 SPIDER_MODULES = ['foller.spiders']
 NEWSPIDER_MODULE = 'foller.spiders'
 
+#ITEM_PIPELINES = {
+#    'foller.pipelines.JsonPipeline': 300
+#}
+
 ITEM_PIPELINES = {
-    'foller.pipelines.JsonPipeline': 300
-}
+    'foller.pipelines.MongoDBPipeline': 300
+    }
+
+# Database parameters
+
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DB = "website-analytics"
+MONGODB_COLLECTION = "scraped-data"
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'foller (+http://www.yourdomain.com)'
 

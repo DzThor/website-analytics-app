@@ -15,8 +15,15 @@ SPIDER_MODULES = ['likealyzer.spiders']
 NEWSPIDER_MODULE = 'likealyzer.spiders'
 
 ITEM_PIPELINES = {
-    'likealyzer.pipelines.JsonPipeline': 300
-}
+    'likealyzer.pipelines.MongoDBPipeline': 300
+    }
+
+# Database parameters
+
+MONGODB_SERVER = "localhost"
+MONGODB_PORT = 27017
+MONGODB_DB = "website-analytics"
+MONGODB_COLLECTION = "scraped-data"
 
 
 

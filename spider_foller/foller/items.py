@@ -16,7 +16,7 @@ class FollerItem(scrapy.Item):
     followers_ratio = scrapy.Field()
     topics = scrapy.Field()
     hashtags = scrapy.Field()
-    #xtweets = scrapy.Field()
+    xtweets = scrapy.Field()
     replies_for_xtweets = scrapy.Field()
     mentions_for_xtweets = scrapy.Field()
     hashtags_for_xtweets = scrapy.Field()
