@@ -92,7 +92,8 @@ class LikealyzerDownloaderMiddleware(object):
         searchBar.send_keys('Pokemon')
         time.sleep(3)
 
-        driver.find_element_by_xpath('//*[@id="__next"]/div/div/div/div[1]/div[2]/div/div/div[3]/div/div[2]/div[1]').click()
+        driver.find_element_by_xpath('(//div[@role="button" and @tabindex="-1"])[1]').click()
+        
         time.sleep(10)
         body = driver.page_source
         currentUrl = driver.current_url

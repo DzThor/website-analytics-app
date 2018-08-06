@@ -10,7 +10,8 @@ import scrapy
 
 class KeyholeItem(scrapy.Item):
     name = scrapy.Field()
-    posts = scrapy.Field()
+    date = scrapy.Field()
+    tweets = scrapy.Field()
     followers = scrapy.Field()
     following = scrapy.Field()
     avgRetweets = scrapy.Field()

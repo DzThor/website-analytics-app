@@ -11,6 +11,7 @@ import scrapy
 class SocialmentionItem(scrapy.Item):
 
     name = scrapy.Field()
+    date = scrapy.Field()
     strengh = scrapy.Field()
     sentimentRatio = scrapy.Field()
     passion = scrapy.Field()

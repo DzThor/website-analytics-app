@@ -11,6 +11,7 @@ import scrapy
 class LikealyzerItem(scrapy.Item):
     
     name = scrapy.Field()
+    date = scrapy.Field()
     summary = scrapy.Field()
     comments = scrapy.Field()
     coverMetric = scrapy.Field()

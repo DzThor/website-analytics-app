@@ -4,7 +4,8 @@ from scrapy.linkextractors import LinkExtractor
 from selenium import webdriver
 from likealyzer.items import LikealyzerItem
 from selenium.webdriver.chrome.options import Options
-import time
+
+import datetime
 from scrapy.selector import Selector
 
 
@@ -27,13 +28,14 @@ class KeyholeSpider(CrawlSpider):
 
         
         likealyzer['name'] = response.xpath('//a[@class="css-ovuman"]/text()').extract_first()
+        likealyzer['date'] = datetime.datetime.utcnow()
         likealyzer['summary'] = response.xpath('//div[@class="css-e80q00"]/span/text()').extract_first()
         likealyzer['comments'] = response.xpath('//ul[@class="css-6w6u3k"]/li/text()').extract()
-        likealyzer['coverMetric'] = response.xpath('//span[contains(text(),"Frontpage")]/following::span[1]/text()').extract_first()
-        likealyzer['aboutMetric'] = response.xpath('//span[contains(text(),"About")]/following::span[1]/text()').extract_first()
-        likealyzer['activityMetric'] = response.xpath('//span[contains(text(),"Activity")]/following::span[1]/text()').extract_first()
-        likealyzer['responseMetric'] = response.xpath('//span[contains(text(),"Response")]/following::span[1]/text()').extract_first()
-        likealyzer['compromiseMetric'] = response.xpath('//span[contains(text(),"Engagement")]/following::span[1]/span/text()').extract_first()
+        likealyzer['coverMetric'] = response.xpath('//span[contains(text(),"Frontpage")]/following::span[1]/text()').extract_first().replace(" ","")
+        likealyzer['aboutMetric'] = response.xpath('//span[contains(text(),"About")]/following::span[1]/text()').extract_first().replace(" ","")
+        likealyzer['activityMetric'] = response.xpath('//span[contains(text(),"Activity")]/following::span[1]/text()').extract_first().replace(" ","")
+        likealyzer['responseMetric'] = response.xpath('//span[contains(text(),"Response")]/following::span[1]/text()').extract_first().replace(" ","")
+        likealyzer['compromiseMetric'] = response.xpath('//span[contains(text(),"Engagement")]/following::span[1]/span/text()').extract_first().replace(" ","")
         likealyzer['userPhotoAvailable'] = response.xpath('//div[@class="css-1roshqv"]/span/text()')[0].extract() 
         likealyzer['aboutAvailable'] = response.xpath('//div[@class="css-1roshqv"]/span/text()')[2].extract() 
         likealyzer['usernameAvailable'] = response.xpath('//div[@class="css-1roshqv"]/span/text()')[1].extract() 

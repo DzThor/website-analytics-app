@@ -1,4 +1,5 @@
 import scrapy
+import datetime
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
 from socialmention.items import SocialmentionItem
@@ -13,26 +14,34 @@ class SocialmentionSpider(CrawlSpider):
 
         url = 'http://socialmention.com/search?q=iphone+apps'
 
-        yield scrapy.Request(url=url, callback=self.parse)
+        yield scrapy.Request(url=url, callback=self.parse, dont_filter = True)
 
 
     def eraseDifferentLevelTags(self,response,expression):
         
-        cleanTags = list()
+        #cleanTags = list()
+        dictTags = dict()
 
-        for element in response.xpath(expression):
-            if(element.xpath('./a')):
-                cleanTags.append(element.xpath('a/text()').extract_first())
-            else:
-                cleanTags.append(element.xpath('text()').extract_first())
+        tags = expression + "/a/text()"
+        tagsCont = expression + "/text()"
+        #for element in response.xpath(expression):
+        #    if(element.xpath('./a')):
+        #        cleanTags.append(element.xpath('a/text()').extract_first())
+        #    else:
+        #        cleanTags.append(element.xpath('text()').extract_first())
 
-        return cleanTags
+        for tagElement, tagValue in zip(response.xpath(tags).extract(), response.xpath(tagsCont).extract()):
+            dictTags[tagElement] = tagValue
+            
+        return dictTags
+        #return cleanTags
 
     def parse(self, response):
             
         socialIt = SocialmentionItem()
 
         socialIt['name'] = response.xpath('//div[@id="column_middle"]/h2/b/text()').extract_first()
+        socialIt['date'] = datetime.datetime.utcnow()
         socialIt['strengh'] = response.xpath('//div[@class="score"]/text()')[0].extract()
         socialIt['sentimentRatio'] = response.xpath('//div[@class="score"]/text()')[1].extract()
         socialIt['passion'] = response.xpath('//div[@class="score"]/text()')[2].extract()

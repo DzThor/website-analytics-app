@@ -49,6 +49,8 @@ class MongoDBPipeline(object):
             if not data:
                 valid = False
                 raise DropItem("Missing {0}!".format(data))
+            if data == "N / A":
+                data = "N/A"
         if valid:
             self.collection.insert(dict(item))
             log.msg("Question added to MongoDB database!",

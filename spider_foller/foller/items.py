@@ -10,6 +10,7 @@ import scrapy
 
 class FollerItem(scrapy.Item):
     username = scrapy.Field()
+    date = scrapy.Field()
     tweets = scrapy.Field()
     followers = scrapy.Field()
     following = scrapy.Field()
