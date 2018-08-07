@@ -18,6 +18,8 @@ class TweetreachSpider(CrawlSpider):
         
         tw_item = TweetreachItem()
 
+        tw_item['source'] = self.name
+
         tw_item['username'] = response.xpath('//div[@class="query"]/text()').extract_first()
         tw_item['date'] = datetime.datetime.utcnow()
         tw_item['estimated_reach'] = response.xpath('//div[@class="reach_score data_number"]/text()').extract_first()

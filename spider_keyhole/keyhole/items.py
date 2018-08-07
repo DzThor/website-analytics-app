@@ -9,6 +9,7 @@ import scrapy
 
 
 class KeyholeItem(scrapy.Item):
+    source = scrapy.Field()
     name = scrapy.Field()
     date = scrapy.Field()
     tweets = scrapy.Field()

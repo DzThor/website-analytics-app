@@ -9,6 +9,8 @@ import scrapy
 
 
 class LikealyzerItem(scrapy.Item):
+
+    source = scrapy.Field()
     
     name = scrapy.Field()
     date = scrapy.Field()

@@ -10,6 +10,8 @@ import scrapy
 
 class SocialmentionItem(scrapy.Item):
 
+    source = scrapy.Field()
+
     name = scrapy.Field()
     date = scrapy.Field()
     strengh = scrapy.Field()

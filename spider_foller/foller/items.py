@@ -9,6 +9,7 @@ import scrapy
 
 
 class FollerItem(scrapy.Item):
+    source = scrapy.Field()
     username = scrapy.Field()
     date = scrapy.Field()
     tweets = scrapy.Field()

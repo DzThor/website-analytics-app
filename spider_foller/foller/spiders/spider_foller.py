@@ -19,6 +19,7 @@ class FollerSpider(CrawlSpider):
     def parse(self, response):
         
         fl_item = FollerItem()
+        fl_item['source'] = self.name
         fl_item['username'] = response.xpath('/html/body/div[3]/div/div/div[2]/div/h1/small/text()').extract_first()
         fl_item['date'] = datetime.datetime.utcnow()
         fl_item['tweets'] = int(response.xpath('//*[@id="overview"]/div[2]/div[4]/table/tbody/tr[1]/td[2]/text()').extract_first())

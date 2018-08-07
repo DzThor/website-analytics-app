@@ -7,6 +7,7 @@
 
 from scrapy import signals
 from scrapy.http import HtmlResponse
+from scrapy.conf import settings
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import time
@@ -76,8 +77,8 @@ class TweetreachDownloaderMiddleware(object):
         # Called for each request that goes through the downloader
         # middleware.
 
-        username = "dzthor96"
-        password = "jeje"
+        username = settings["TWITTER_ACCOUNT"]
+        password = settings["TWITTER_PASS"]
 
         chrome_options = Options()
         chrome_options.add_argument("--headless")

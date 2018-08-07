@@ -26,6 +26,7 @@ class KeyholeSpider(CrawlSpider):
         
         likealyzer = LikealyzerItem()
 
+        likealyzer['source'] = self.name
         
         likealyzer['name'] = response.xpath('//a[@class="css-ovuman"]/text()').extract_first()
         likealyzer['date'] = datetime.datetime.utcnow()
