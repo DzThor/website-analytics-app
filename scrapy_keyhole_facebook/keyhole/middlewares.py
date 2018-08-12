@@ -5,14 +5,16 @@
 # See documentation in:
 # https://doc.scrapy.org/en/latest/topics/spider-middleware.html
 
+import logging
 import sys
+import time
+
+import selenium.common.exceptions as exceptions
 from scrapy import signals
 from scrapy.http import HtmlResponse
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-import selenium.common.exceptions as exceptions
-import time
-
+from selenium.webdriver.remote.remote_connection import LOGGER
 
 
 class KeyholeSpiderMiddleware(object):
@@ -73,7 +75,9 @@ class KeyholeDownloaderMiddleware(object):
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--lang=en")
         chrome_options.add_argument("--window-size=1920x1080")
+        chrome_options.add_argument("--mute-all")
 
+        LOGGER.setLevel(logging.WARNING)
         self.driver = webdriver.Chrome(chrome_options=chrome_options)
 
     def __del__(self):
@@ -115,7 +119,6 @@ class KeyholeDownloaderMiddleware(object):
 
         
         body = self.driver.page_source
-        print(self.driver.page_source)
         currentUrl = self.driver.current_url
         #self.driver.close()
         return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)

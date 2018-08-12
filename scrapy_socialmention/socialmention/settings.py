@@ -14,6 +14,8 @@ BOT_NAME = 'socialmention'
 SPIDER_MODULES = ['socialmention.spiders']
 NEWSPIDER_MODULE = 'socialmention.spiders'
 
+LOG_FILE = 'scrapy.log'
+
 ITEM_PIPELINES = {
     'socialmention.pipelines.MongoDBPipeline': 300
     }

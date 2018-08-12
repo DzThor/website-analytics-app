@@ -14,6 +14,8 @@ BOT_NAME = 'foller'
 SPIDER_MODULES = ['foller.spiders']
 NEWSPIDER_MODULE = 'foller.spiders'
 
+LOG_FILE = 'scrapy.log'
+
 #ITEM_PIPELINES = {
 #    'foller.pipelines.JsonPipeline': 300
 #}

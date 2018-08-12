@@ -11,6 +11,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
 import time
+import logging
+from selenium.webdriver.remote.remote_connection import LOGGER
 
 class LikealyzerSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -80,6 +82,9 @@ class LikealyzerDownloaderMiddleware(object):
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--lang=en")
         chrome_options.add_argument("--window-size=1920x1080")
+        chrome_options.add_argument("--mute-all")
+
+        LOGGER.setLevel(logging.WARNING)
 
         driver = webdriver.Chrome(chrome_options=chrome_options)
 

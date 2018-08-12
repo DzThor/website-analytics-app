@@ -10,6 +10,11 @@ import datetime
 class FollerSpider(CrawlSpider):
     name = 'foller'
     
+    def __init__(self, time='', searchname='', **kwargs):
+        self.searchName = searchname
+        self.time = time
+        super().__init__(**kwargs)  # python3
+
     def start_requests(self):
         
         url = 'https://foller.me'
@@ -24,15 +29,15 @@ class FollerSpider(CrawlSpider):
         follerData['platform'] = "Twitter"
         follerData['username'] = response.xpath('/html/body/div[3]/div/div/div[2]/div/h1/text()').extract_first()
 
-        creationdate = getattr(self, 'time', None)
+        creationdate = self.time
         if creationdate is not None:
             follerData['date'] = datetime.datetime.strptime(creationdate,settings['DATE_FORMAT'])
         else:
             follerData['date'] = datetime.datetime.strptime(str(datetime.datetime.now().isoformat()), settings['DATE_FORMAT'])
         
-        follerData['tweets'] = int(response.xpath('//*[@id="overview"]/div[2]/div[4]/table/tbody/tr[1]/td[2]/text()').extract_first())
+        follerData['tweets'] = int(response.xpath('//*[@id="overview"]/div[2]/div[4]/table/tbody/tr[1]/td[2]/text()').extract_first().replace(',', ''))
         follerData['followers'] = int(response.xpath('//*[@id="overview"]/div[2]/div[4]/table/tbody/tr[2]/td[2]/text()').extract_first().replace(',', ''))
-        follerData['following'] = int(response.xpath('//*[@id="overview"]/div[2]/div[4]/table/tbody/tr[3]/td[2]/text()').extract_first())
+        follerData['following'] = int(response.xpath('//*[@id="overview"]/div[2]/div[4]/table/tbody/tr[3]/td[2]/text()').extract_first().replace(',', ''))
         follerData['followers_ratio'] = float(response.xpath('//*[@id="overview"]/div[2]/div[4]/table/tbody/tr[4]/td[2]/text()').extract_first())
         follerData['topics'] = response.xpath("//a[contains(@class, 'tag-cloud-link')]/text()").extract()
         follerData['hashtags'] = response.xpath('//div[@class="span12"]/p/a[contains(text(),"#")]/text()').extract()

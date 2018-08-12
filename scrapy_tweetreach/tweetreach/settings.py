@@ -14,6 +14,8 @@ BOT_NAME = 'tweetreach'
 SPIDER_MODULES = ['tweetreach.spiders']
 NEWSPIDER_MODULE = 'tweetreach.spiders'
 
+LOG_FILE = 'scrapy.log'
+
 ITEM_PIPELINES = {
     'tweetreach.pipelines.MongoDBPipeline': 300
     #'tweetreach.pipelines.JsonPipeline' : 300

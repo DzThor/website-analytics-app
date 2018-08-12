@@ -10,6 +10,8 @@ from scrapy.http import HtmlResponse
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.keys import Keys
+import logging
+from selenium.webdriver.remote.remote_connection import LOGGER
 import time
 
 
@@ -79,13 +81,16 @@ class FollerDownloaderMiddleware(object):
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--lang=en")
         chrome_options.add_argument("--window-size=1920x1080")
+        chrome_options.add_argument("--mute-audio")
 
-        driver = webdriver.Chrome(chrome_options=chrome_options)
+        LOGGER.setLevel(logging.WARNING)
+
+        driver = webdriver.Chrome(chrome_options=chrome_options, service_log_path="")
 
         driver.get('https://foller.me/')
 
         searchBar = driver.find_element_by_xpath('/html/body/div[2]/div/div/form/input[1]')
-        searchBar.send_keys("Stargate")
+        searchBar.send_keys(spider.searchName)
         time.sleep(1)
         searchBar.send_keys(Keys.RETURN)
         time.sleep(15)

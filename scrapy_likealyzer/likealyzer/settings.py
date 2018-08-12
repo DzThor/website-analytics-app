@@ -14,6 +14,8 @@ BOT_NAME = 'likealyzer'
 SPIDER_MODULES = ['likealyzer.spiders']
 NEWSPIDER_MODULE = 'likealyzer.spiders'
 
+LOG_FILE = 'scrapy.log'
+
 ITEM_PIPELINES = {
     'likealyzer.pipelines.MongoDBPipeline': 300
     }

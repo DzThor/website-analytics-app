@@ -14,6 +14,7 @@ BOT_NAME = 'keyhole_facebook'
 SPIDER_MODULES = ['keyhole.spiders']
 NEWSPIDER_MODULE = 'keyhole.spiders'
 
+LOG_FILE = 'scrapy.log'
 
 ITEM_PIPELINES = {
     'keyhole.pipelines.MongoDBPipeline': 300
