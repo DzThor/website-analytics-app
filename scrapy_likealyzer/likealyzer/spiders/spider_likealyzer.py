@@ -15,6 +15,25 @@ class KeyholeSpider(CrawlSpider):
 
     name = 'likealyzer'
 
+    def __init__(self, time='', searchname='', **kwargs):
+
+        try:
+            self.searchName = searchname
+            if not self.searchName:
+                raise ValueError('El campo de búsqueda en config.json está vacío')
+        except ValueError as e:
+            print(e)
+            raise e
+
+        try:
+            self.time = time
+            if not self.time:
+                raise ValueError('El campo de fecha en la llamada está vacío')
+        except ValueError as e:
+            print(e)
+            raise e
+
+        super().__init__(**kwargs)  # python3
 
     def start_requests(self):
         allowed_domains = ['likealyzer.com']
@@ -24,13 +43,13 @@ class KeyholeSpider(CrawlSpider):
 
 
     def parse(self, response):
-        
+
         likealyzer = LikealyzerItem()
 
         likealyzer['source'] = self.name
-        
-        likealyzer['name'] = response.xpath('//a[@class="css-ovuman"]/text()').extract_first()
 
+        likealyzer['name'] = response.xpath('//*[@id="__next"]/div/div/div/div[3]/div[1]/div/div[3]/div/div[1]/a/text()').extract_first()
+        likealyzer['platform'] = "Facebook"
         creationdate = getattr(self, 'time', None)
         if creationdate is not None:
             likealyzer['date'] = datetime.datetime.strptime(creationdate,settings['DATE_FORMAT'])

@@ -13,6 +13,10 @@ import time
 import logging
 from selenium.webdriver.remote.remote_connection import LOGGER
 
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import selenium.common.exceptions as exceptions
 
 class KeyholeSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -78,7 +82,7 @@ class KeyholeDownloaderMiddleware(object):
         LOGGER.setLevel(logging.WARNING)
 
         self.driver = webdriver.Chrome(chrome_options=chrome_options)
-    
+
     def __del__(self):
         self.driver.close()
 
@@ -93,7 +97,6 @@ class KeyholeDownloaderMiddleware(object):
         # Called for each request that goes through the downloader
         # middleware.
 
-        
 
         self.driver.get('http://keyhole.co/')
 
@@ -106,12 +109,16 @@ class KeyholeDownloaderMiddleware(object):
 
         self.driver.find_element_by_xpath('//form[@class="account-tracking-form form-active"]/div/input[@id="search"]').click()
         searchElement = self.driver.find_element_by_xpath('//form[@class="account-tracking-form form-active"]/div/input[@id="search"]')
-        searchElement.send_keys("Stargate")
+        searchElement.send_keys(spider.searchName)
         time.sleep(1)
 
         self.driver.find_element_by_xpath('//input[@id="letsgo"]').click()
-        time.sleep(5)
-        
+
+        try:
+            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH,'//*[@id="account"]/div/div[1]/div[1]/div[2]/div/a/p[text() != ""]')))
+        except exceptions.TimeoutException:
+            raise Exception('Unable to find text in this element after waiting 20 seconds')
+
         body = self.driver.page_source
         currentUrl = self.driver.current_url
         #self.driver.close()

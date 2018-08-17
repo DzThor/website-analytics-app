@@ -11,7 +11,7 @@ import scrapy
 class LikealyzerItem(scrapy.Item):
 
     source = scrapy.Field()
-    
+    platform = scrapy.Field()
     name = scrapy.Field()
     date = scrapy.Field()
     summary = scrapy.Field()

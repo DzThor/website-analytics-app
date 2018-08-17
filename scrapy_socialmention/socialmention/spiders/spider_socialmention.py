@@ -11,15 +11,35 @@ class SocialmentionSpider(CrawlSpider):
 
     name = 'socialmention'
 
+    def __init__(self, time='', searchname='', **kwargs):
+
+        try:
+            self.searchName = searchname
+            if not self.searchName:
+                raise ValueError('El campo de búsqueda en config.json está vacío')
+        except ValueError as e:
+            print(e)
+            raise e
+
+        try:
+            self.time = time
+            if not self.time:
+                raise ValueError('El campo de fecha en la llamada está vacío')
+        except ValueError as e:
+            print(e)
+            raise e
+
+        super().__init__(**kwargs)  # python3
+
     def start_requests(self):
 
-        url = 'http://socialmention.com/search?q=stargate'
+        url = 'http://socialmention.com/search?q=' + self.searchName
 
         yield scrapy.Request(url=url, callback=self.parse, dont_filter = True)
 
 
     def createTagsDict(self,response,expression):
-        
+
         dictTags = dict()
 
         tags = expression + "/a/text()"
@@ -27,17 +47,17 @@ class SocialmentionSpider(CrawlSpider):
 
         for tagElement, tagValue in zip(response.xpath(tags).extract(), response.xpath(tagsCont).extract()):
             dictTags[tagElement] = tagValue
-            
+
         return dictTags
-        #return cleanTags
 
     def parse(self, response):
-            
+
         socialIt = SocialmentionItem()
 
         socialIt['source'] = self.name
 
         socialIt['name'] = response.xpath('//div[@id="column_middle"]/h2/b/text()').extract_first()
+        socialIt['platform'] = "Internet"
 
         creationdate = getattr(self, 'time', None)
         if creationdate is not None:
@@ -61,5 +81,4 @@ class SocialmentionSpider(CrawlSpider):
         socialIt['usersValues'] = self.createTagsDict(response,'//h4[contains(text(),"Top Users")]/following-sibling::table//*[contains(@width,25) or contains(@width,90)]')
         socialIt['hashtagsValues'] = self.createTagsDict(response,'//h4[contains(text(),"Top Hashtags")]/following-sibling::table//*[contains(@width,25) or contains(@width,90)]')
 
-        
         yield socialIt

@@ -13,6 +13,10 @@ from selenium.webdriver.common.keys import Keys
 import time
 import logging
 from selenium.webdriver.remote.remote_connection import LOGGER
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import selenium.common.exceptions as exceptions
 
 class LikealyzerSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -67,6 +71,21 @@ class LikealyzerDownloaderMiddleware(object):
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
 
+    def __init__(self):
+
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--lang=en")
+        chrome_options.add_argument("--window-size=1920x1080")
+        chrome_options.add_argument("--mute-all")
+
+        LOGGER.setLevel(logging.WARNING)
+
+        self.driver = webdriver.Chrome(chrome_options=chrome_options)
+
+    def __del__(self):
+        self.driver.close()
+
     @classmethod
     def from_crawler(cls, crawler):
         # This method is used by Scrapy to create your spiders.
@@ -78,31 +97,25 @@ class LikealyzerDownloaderMiddleware(object):
         # Called for each request that goes through the downloader
         # middleware.
 
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--lang=en")
-        chrome_options.add_argument("--window-size=1920x1080")
-        chrome_options.add_argument("--mute-all")
-
-        LOGGER.setLevel(logging.WARNING)
-
-        driver = webdriver.Chrome(chrome_options=chrome_options)
-
-        driver.get('https://likealyzer.com/?lang=es')
+        self.driver.get('https://likealyzer.com/?lang=es')
         time.sleep(5)
-        
+
         #deben ser páginas, no usuarios normales, ver como comprobarlo
 
-        searchBar = driver.find_element_by_xpath('//input')
-        searchBar.send_keys('Pokemon')
+        searchBar = self.driver.find_element_by_xpath('//input')
+        searchBar.send_keys(spider.searchName)
         time.sleep(3)
 
-        driver.find_element_by_xpath('(//div[@role="button" and @tabindex="-1"])[1]').click()
-        
-        time.sleep(10)
-        body = driver.page_source
-        currentUrl = driver.current_url
-        driver.close()
+        self.driver.find_element_by_xpath('(//div[@role="button" and @tabindex="-1"])[1]').click()
+
+        try:
+            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH,'//*[@id="__next"]/div/div/div/div[3]/div[1]/div/div[3]/div/div[1]/a[text() != ""]')))
+        except exceptions.TimeoutException:
+            raise Exception('Unable to find text in this element after waiting 20 seconds')
+
+        body = self.driver.page_source
+        currentUrl = self.driver.current_url
+
         return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)
 
         #quiza comprobar si vuelve [] en process_response \/

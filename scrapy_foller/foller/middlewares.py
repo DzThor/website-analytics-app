@@ -68,6 +68,19 @@ class FollerDownloaderMiddleware(object):
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
 
+    def __init__(self):
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--lang=en")
+        chrome_options.add_argument("--window-size=1920x1080")
+        chrome_options.add_argument("--mute-all")
+
+        LOGGER.setLevel(logging.WARNING)
+        self.driver = webdriver.Chrome(chrome_options=chrome_options, service_args=["--verbose", "--log-path=D:\Desktop\TFG\website-analytics\scrapy_foller\chromedriver.log"])
+
+    def __del__(self):
+        self.driver.close()
+
     @classmethod
     def from_crawler(cls, crawler):
         # This method is used by Scrapy to create your spiders.
@@ -76,28 +89,17 @@ class FollerDownloaderMiddleware(object):
         return s
 
     def process_request(self, request, spider):
-        
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--lang=en")
-        chrome_options.add_argument("--window-size=1920x1080")
-        chrome_options.add_argument("--mute-audio")
 
-        LOGGER.setLevel(logging.WARNING)
+        self.driver.get('https://foller.me/')
 
-        driver = webdriver.Chrome(chrome_options=chrome_options, service_log_path="")
-
-        driver.get('https://foller.me/')
-
-        searchBar = driver.find_element_by_xpath('/html/body/div[2]/div/div/form/input[1]')
+        searchBar = self.driver.find_element_by_xpath('/html/body/div[2]/div/div/form/input[1]')
         searchBar.send_keys(spider.searchName)
         time.sleep(1)
         searchBar.send_keys(Keys.RETURN)
         time.sleep(15)
 
-        body = driver.page_source
-        currentUrl = driver.current_url
-        driver.close()
+        body = self.driver.page_source
+        currentUrl = self.driver.current_url
 
         return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)
 

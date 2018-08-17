@@ -25,8 +25,8 @@ ITEM_PIPELINES = {
 
 MONGODB_SERVER = "localhost"
 MONGODB_PORT = 27017
-MONGODB_DB = "website-analytics"
-MONGODB_COLLECTION = "scraped-data"
+MONGODB_DB = "website_analytics"
+MONGODB_COLLECTION = "scraped_data"
 
 #Twitter parameters
 

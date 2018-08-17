@@ -13,6 +13,7 @@ class SocialmentionItem(scrapy.Item):
     source = scrapy.Field()
 
     name = scrapy.Field()
+    platform = scrapy.Field()
     date = scrapy.Field()
     strengh = scrapy.Field()
     sentimentRatio = scrapy.Field()

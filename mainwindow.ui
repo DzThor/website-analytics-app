@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>880</width>
+    <height>639</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Website Analytics</string>
+  </property>
+  <property name="documentMode">
+   <bool>false</bool>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Triangular</enum>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="maximumSize">
+    <size>
+     <width>813</width>
+     <height>577</height>
+    </size>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="sizeConstraint">
+     <enum>QLayout::SetMaximumSize</enum>
+    </property>
+    <item row="1" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <widget class="QWidget" name="Twitter">
+       <attribute name="title">
+        <string>Twitter</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QGraphicsView" name="graphicsView"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QGraphicsView" name="graphicsView_2"/>
+        </item>
+        <item row="2" column="0">
+         <widget class="QGraphicsView" name="graphicsView_3"/>
+        </item>
+        <item row="0" column="1" rowspan="3">
+         <widget class="QScrollBar" name="verticalScrollBar">
+          <property name="layoutDirection">
+           <enum>Qt::RightToLeft</enum>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tab_2">
+       <attribute name="title">
+        <string>Facebook</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tab">
+       <attribute name="title">
+        <string>Internet</string>
+       </attribute>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>880</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuArchivo">
+    <property name="title">
+     <string>Archivo</string>
+    </property>
+    <addaction name="actionCambiar_cuenta"/>
+    <addaction name="actionSalir"/>
+   </widget>
+   <addaction name="menuArchivo"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <action name="actionCambiar_cuenta">
+   <property name="text">
+    <string>Cambiar cuenta</string>
+   </property>
+  </action>
+  <action name="actionSalir">
+   <property name="text">
+    <string>Salir</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

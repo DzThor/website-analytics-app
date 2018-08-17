@@ -14,6 +14,11 @@ import time
 import logging
 from selenium.webdriver.remote.remote_connection import LOGGER
 
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import selenium.common.exceptions as exceptions
+
 
 class TweetreachSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -68,6 +73,21 @@ class TweetreachDownloaderMiddleware(object):
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
 
+    def __init__(self):
+
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--lang=en")
+        chrome_options.add_argument("--window-size=1920x1080")
+        chrome_options.add_argument("--mute-all")
+
+        LOGGER.setLevel(logging.WARNING)
+
+        self.driver = webdriver.Chrome(chrome_options=chrome_options)
+
+    def __del__(self):
+        self.driver.close()
+
     @classmethod
     def from_crawler(cls, crawler):
         # This method is used by Scrapy to create your spiders.
@@ -82,46 +102,38 @@ class TweetreachDownloaderMiddleware(object):
         username = settings["TWITTER_ACCOUNT"]
         password = settings["TWITTER_PASS"]
 
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--lang=en")
-        chrome_options.add_argument("--window-size=1920x1080")
-        chrome_options.add_argument("--mute-all")
+        self.driver.get('https://tweetreach.com/')
 
-        LOGGER.setLevel(logging.WARNING)
+        self.driver.find_element_by_xpath('//input[@class="search-form__input"]').click()
+        searchElement = self.driver.find_element_by_xpath('//input[@class="search-form__input"]')
+        searchElement.send_keys(spider.searchName)
 
-        driver = webdriver.Chrome(chrome_options=chrome_options)
-
-        driver.get('https://tweetreach.com/')
-        
-        driver.find_element_by_xpath('//input[@class="search-form__input"]').click()
-        searchElement = driver.find_element_by_xpath('//input[@class="search-form__input"]')
-        searchElement.send_keys("Stargate")
-        
         time.sleep(2)
 
-        driver.find_element_by_xpath('//input[@class="search-form__button"]').click()
-        
+        self.driver.find_element_by_xpath('//input[@class="search-form__button"]').click()
+
         time.sleep(5)
 
 
         #Introducir cosas de twitter
 
         #usuario //*[@id="username_or_email"]
-        searchElement = driver.find_element_by_xpath('//*[@id="username_or_email"]')
+        searchElement = self.driver.find_element_by_xpath('//*[@id="username_or_email"]')
         searchElement.send_keys(username)
         #pass //*[@id="password"]
-        searchElement = driver.find_element_by_xpath('//*[@id="password"]')
+        searchElement = self.driver.find_element_by_xpath('//*[@id="password"]')
         searchElement.send_keys(password)
-        
+
         #boton //*[@id="allow"]
-        driver.find_element_by_xpath('//*[@id="allow"]').click()
+        self.driver.find_element_by_xpath('//*[@id="allow"]').click()
 
-        time.sleep(7)
+        try:
+            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH,'//div[@class="query" and text() != ""]')))
+        except exceptions.TimeoutException:
+            raise Exception('Unable to find text in this element after waiting 20 seconds')
 
-        body = driver.page_source
-        currentUrl = driver.current_url
-        driver.close()
+        body = self.driver.page_source
+        currentUrl = self.driver.current_url
 
         return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)
 
