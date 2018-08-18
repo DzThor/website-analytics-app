@@ -82,7 +82,7 @@ class KeyholeDownloaderMiddleware(object):
         chrome_options.add_argument("--mute-all")
 
         LOGGER.setLevel(logging.WARNING)
-        self.driver = webdriver.Chrome(chrome_options=chrome_options, service_args=["--verbose", "--log-path=D:\Desktop\TFG\website-analytics\scrapy_keyhole_facebook\chromedriver.log"])
+        self.driver = webdriver.Chrome(chrome_options=chrome_options)
 
     def __del__(self):
         self.driver.close()
@@ -112,12 +112,6 @@ class KeyholeDownloaderMiddleware(object):
         time.sleep(1)
 
         self.driver.find_element_by_xpath('//input[@id="letsgo"]').click()
-        #time.sleep(20)
-
-        #try:
-        #    title = self.driver.find_element_by_xpath('//*[@id="account"]/div/div[1]/div[1]/div[2]/div/a/p')
-        #except exceptions.NoSuchElementException:
-            #sys.exit("Oops, esta página no existe.")
 
         try:
             WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH,'//*[@id="account"]/div/div[1]/div[1]/div[2]/div/a/p[text() != ""]')))

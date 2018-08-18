@@ -14,6 +14,11 @@ import logging
 from selenium.webdriver.remote.remote_connection import LOGGER
 import time
 
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+import selenium.common.exceptions as exceptions
+
 
 class FollerSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -69,6 +74,7 @@ class FollerDownloaderMiddleware(object):
     # passed objects.
 
     def __init__(self):
+
         chrome_options = Options()
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--lang=en")
@@ -76,10 +82,13 @@ class FollerDownloaderMiddleware(object):
         chrome_options.add_argument("--mute-all")
 
         LOGGER.setLevel(logging.WARNING)
-        self.driver = webdriver.Chrome(chrome_options=chrome_options, service_args=["--verbose", "--log-path=D:\Desktop\TFG\website-analytics\scrapy_foller\chromedriver.log"])
+
+        self.driver = webdriver.Chrome(chrome_options=chrome_options)
+        #self.driver = webdriver.Chrome(chrome_options=chrome_options, service_args=["--verbose", "--log-path=D:\Desktop\TFG\website-analytics\scrapy_foller\chromedriver.log"])
 
     def __del__(self):
         self.driver.close()
+
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -96,7 +105,11 @@ class FollerDownloaderMiddleware(object):
         searchBar.send_keys(spider.searchName)
         time.sleep(1)
         searchBar.send_keys(Keys.RETURN)
-        time.sleep(15)
+        
+        try:
+            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[3]/div/div/div[2]/div/h1[text() != ""]')))
+        except exceptions.TimeoutException:
+            raise Exception('Unable to find text in this element after waiting 20 seconds')
 
         body = self.driver.page_source
         currentUrl = self.driver.current_url

@@ -12,12 +12,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import time
 import logging
-from selenium.webdriver.remote.remote_connection import LOGGER
-
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import selenium.common.exceptions as exceptions
 
 
 class TweetreachSpiderMiddleware(object):
@@ -81,8 +75,6 @@ class TweetreachDownloaderMiddleware(object):
         chrome_options.add_argument("--window-size=1920x1080")
         chrome_options.add_argument("--mute-all")
 
-        LOGGER.setLevel(logging.WARNING)
-
         self.driver = webdriver.Chrome(chrome_options=chrome_options)
 
     def __del__(self):
@@ -127,10 +119,7 @@ class TweetreachDownloaderMiddleware(object):
         #boton //*[@id="allow"]
         self.driver.find_element_by_xpath('//*[@id="allow"]').click()
 
-        try:
-            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH,'//div[@class="query" and text() != ""]')))
-        except exceptions.TimeoutException:
-            raise Exception('Unable to find text in this element after waiting 20 seconds')
+        time.sleep(8)
 
         body = self.driver.page_source
         currentUrl = self.driver.current_url
