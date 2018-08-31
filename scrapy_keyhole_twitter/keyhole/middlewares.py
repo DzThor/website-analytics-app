@@ -83,9 +83,6 @@ class KeyholeDownloaderMiddleware(object):
 
         self.driver = webdriver.Chrome(chrome_options=chrome_options)
 
-    def __del__(self):
-        self.driver.close()
-
     @classmethod
     def from_crawler(cls, crawler):
         # This method is used by Scrapy to create your spiders.
@@ -101,7 +98,8 @@ class KeyholeDownloaderMiddleware(object):
         self.driver.get('http://keyhole.co/')
 
 
-        self.driver.find_element_by_xpath('/html/body/div[1]/main/section[1]/div/div/div/div/a[2]').click()
+        #self.driver.find_element_by_xpath('/html/body/div[1]/main/section[1]/div/div/div/div/a[2]').click()
+        self.driver.find_element_by_xpath('//a[text() = "@account"]').click()
         time.sleep(4)
 
         buttonTwitter = self.driver.find_element_by_xpath('//*[@id="twt_check" and contains(@name,"platform_acc")]')
@@ -121,7 +119,7 @@ class KeyholeDownloaderMiddleware(object):
 
         body = self.driver.page_source
         currentUrl = self.driver.current_url
-        #self.driver.close()
+        self.driver.quit()
 
         return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)
 

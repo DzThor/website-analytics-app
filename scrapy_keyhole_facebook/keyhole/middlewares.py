@@ -16,9 +16,6 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.remote.remote_connection import LOGGER
 
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 
 class KeyholeSpiderMiddleware(object):
@@ -84,8 +81,6 @@ class KeyholeDownloaderMiddleware(object):
         LOGGER.setLevel(logging.WARNING)
         self.driver = webdriver.Chrome(chrome_options=chrome_options)
 
-    def __del__(self):
-        self.driver.close()
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -100,7 +95,8 @@ class KeyholeDownloaderMiddleware(object):
 
         self.driver.get('http://keyhole.co/')
 
-        self.driver.find_element_by_xpath('/html/body/div[1]/main/section[1]/div/div/div/div/a[2]').click()
+        #self.driver.find_element_by_xpath('/html/body/div[1]/main/section[1]/div/div/div/div/a[2]').click()
+        self.driver.find_element_by_xpath('//a[text() = "@account"]').click()
         time.sleep(4)
 
         buttonFB = self.driver.find_element_by_xpath('//*[@id="fb_check" and contains(@name,"platform_acc")]')
@@ -113,14 +109,11 @@ class KeyholeDownloaderMiddleware(object):
 
         self.driver.find_element_by_xpath('//input[@id="letsgo"]').click()
 
-        try:
-            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH,'//*[@id="account"]/div/div[1]/div[1]/div[2]/div/a/p[text() != ""]')))
-        except exceptions.TimeoutException:
-            raise Exception('Unable to find text in this element after waiting 20 seconds')
+        time.sleep(30)
 
         body = self.driver.page_source
         currentUrl = self.driver.current_url
-        #self.driver.close()
+        self.driver.quit()
         return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)
 
     def process_response(self, request, response, spider):

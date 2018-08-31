@@ -67,19 +67,6 @@ class TweetreachDownloaderMiddleware(object):
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
 
-    def __init__(self):
-
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--lang=en")
-        chrome_options.add_argument("--window-size=1920x1080")
-        chrome_options.add_argument("--mute-all")
-
-        self.driver = webdriver.Chrome(chrome_options=chrome_options)
-
-    def __del__(self):
-        self.driver.close()
-
     @classmethod
     def from_crawler(cls, crawler):
         # This method is used by Scrapy to create your spiders.
@@ -90,19 +77,29 @@ class TweetreachDownloaderMiddleware(object):
     def process_request(self, request, spider):
         # Called for each request that goes through the downloader
         # middleware.
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--lang=en")
+        chrome_options.add_argument("--window-size=1920x1080")
+        chrome_options.add_argument("--mute-all")
+
+        driver = webdriver.Chrome(chrome_options=chrome_options)
+
 
         username = settings["TWITTER_ACCOUNT"]
         password = settings["TWITTER_PASS"]
 
-        self.driver.get('https://tweetreach.com/')
-
-        self.driver.find_element_by_xpath('//input[@class="search-form__input"]').click()
-        searchElement = self.driver.find_element_by_xpath('//input[@class="search-form__input"]')
+        print("\n")
+        print(request.url)
+        #driver.get('https://tweetreach.com/')
+        driver.get(request.url)
+        driver.find_element_by_xpath('//input[@class="search-form__input"]').click()
+        searchElement = driver.find_element_by_xpath('//input[@class="search-form__input"]')
         searchElement.send_keys(spider.searchName)
 
         time.sleep(2)
 
-        self.driver.find_element_by_xpath('//input[@class="search-form__button"]').click()
+        driver.find_element_by_xpath('//input[@class="search-form__button"]').click()
 
         time.sleep(5)
 
@@ -110,19 +107,22 @@ class TweetreachDownloaderMiddleware(object):
         #Introducir cosas de twitter
 
         #usuario //*[@id="username_or_email"]
-        searchElement = self.driver.find_element_by_xpath('//*[@id="username_or_email"]')
+        searchElement = driver.find_element_by_xpath('//*[@id="username_or_email"]')
         searchElement.send_keys(username)
         #pass //*[@id="password"]
-        searchElement = self.driver.find_element_by_xpath('//*[@id="password"]')
+        searchElement = driver.find_element_by_xpath('//*[@id="password"]')
         searchElement.send_keys(password)
 
         #boton //*[@id="allow"]
-        self.driver.find_element_by_xpath('//*[@id="allow"]').click()
+        driver.find_element_by_xpath('//*[@id="allow"]').click()
 
-        time.sleep(8)
+        time.sleep(10)
 
-        body = self.driver.page_source
-        currentUrl = self.driver.current_url
+        body = driver.page_source
+        currentUrl = driver.current_url
+
+        #driver.close()
+        driver.quit()
 
         return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)
 

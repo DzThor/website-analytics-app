@@ -46,7 +46,7 @@ class KeyholeSpiderFacebook(CrawlSpider):
 
         keyhole['source'] = self.name
         keyhole['platform'] = "Facebook"
-        keyhole['name'] = response.xpath('//*[@id="account"]/div/div[1]/div[1]/div[2]/div/a/p/text()').extract_first()
+        keyhole['name'] = self.searchName
 
         creationdate = getattr(self, 'time', None)
         if creationdate is not None:

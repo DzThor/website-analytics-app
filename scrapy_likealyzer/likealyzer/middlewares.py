@@ -13,10 +13,7 @@ from selenium.webdriver.common.keys import Keys
 import time
 import logging
 from selenium.webdriver.remote.remote_connection import LOGGER
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import selenium.common.exceptions as exceptions
+
 
 class LikealyzerSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
@@ -83,9 +80,6 @@ class LikealyzerDownloaderMiddleware(object):
 
         self.driver = webdriver.Chrome(chrome_options=chrome_options)
 
-    def __del__(self):
-        self.driver.close()
-
     @classmethod
     def from_crawler(cls, crawler):
         # This method is used by Scrapy to create your spiders.
@@ -108,13 +102,12 @@ class LikealyzerDownloaderMiddleware(object):
 
         self.driver.find_element_by_xpath('(//div[@role="button" and @tabindex="-1"])[1]').click()
 
-        try:
-            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH,'//*[@id="__next"]/div/div/div/div[3]/div[1]/div/div[3]/div/div[1]/a[text() != ""]')))
-        except exceptions.TimeoutException:
-            raise Exception('Unable to find text in this element after waiting 20 seconds')
+        time.sleep(15)
 
         body = self.driver.page_source
         currentUrl = self.driver.current_url
+
+        self.driver.quit()
 
         return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)
 

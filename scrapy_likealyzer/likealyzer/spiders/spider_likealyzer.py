@@ -48,7 +48,7 @@ class KeyholeSpider(CrawlSpider):
 
         likealyzer['source'] = self.name
 
-        likealyzer['name'] = response.xpath('//*[@id="__next"]/div/div/div/div[3]/div[1]/div/div[3]/div/div[1]/a/text()').extract_first()
+        likealyzer['name'] = self.searchName
         likealyzer['platform'] = "Facebook"
         creationdate = getattr(self, 'time', None)
         if creationdate is not None:

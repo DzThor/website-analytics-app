@@ -31,7 +31,7 @@ class TweetreachSpider(CrawlSpider):
 
     def start_requests(self):
 
-        url = 'https://tweetreach.com'
+        url = 'https://tweetreach.com/'
 
         yield scrapy.Request(url=url, callback=self.parse)
 
@@ -42,7 +42,7 @@ class TweetreachSpider(CrawlSpider):
 
         tw_item['source'] = self.name
 
-        tw_item['name'] = response.xpath('//div[@class="query"]/text()').extract_first()
+        tw_item['name'] = self.searchName
         tw_item["platform"] = "Twitter"
 
         creationdate = getattr(self, 'time', None)

@@ -30,13 +30,14 @@ MONGODB_SERVER = "localhost"
 MONGODB_PORT = 27017
 MONGODB_DB = "website_analytics"
 MONGODB_COLLECTION = "scraped_data"
+#MONGODB_COLLECTION = "scraped_data_testing"
 
 # Date format
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S.%f"
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'foller (+http://www.yourdomain.com)'
+USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -73,7 +74,8 @@ COOKIES_ENABLED = False
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'foller.middlewares.FollerDownloaderMiddleware': 543,
+    'foller.middlewares.FollerDownloaderMiddleware': 543
+    #'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400
 }
 
 # Enable or disable extensions

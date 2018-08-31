@@ -26,6 +26,7 @@ ITEM_PIPELINES = {
 MONGODB_SERVER = "localhost"
 MONGODB_PORT = 27017
 MONGODB_DB = "website_analytics"
+#MONGODB_COLLECTION = "scraped_data_testing"
 MONGODB_COLLECTION = "scraped_data"
 
 #Twitter parameters
@@ -76,6 +77,7 @@ COOKIES_ENABLED = False
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     'tweetreach.middlewares.TweetreachDownloaderMiddleware': 543,
+    'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400
 }
 
 # Enable or disable extensions

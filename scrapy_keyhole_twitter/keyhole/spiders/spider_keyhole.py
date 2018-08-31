@@ -48,7 +48,7 @@ class KeyholeSpiderTwitter(CrawlSpider):
 
         keyhole['source'] = self.name
         keyhole['platform'] = "Twitter"
-        keyhole['name'] = response.xpath('/html/body/div[1]/section/div[2]/main/figure[1]/div/div[1]/div/div[2]/div/a/p/text()').extract_first()
+        keyhole['name'] = self.searchName
 
 
         creationdate = getattr(self, 'time', None)

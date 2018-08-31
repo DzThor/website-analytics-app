@@ -86,9 +86,6 @@ class FollerDownloaderMiddleware(object):
         self.driver = webdriver.Chrome(chrome_options=chrome_options)
         #self.driver = webdriver.Chrome(chrome_options=chrome_options, service_args=["--verbose", "--log-path=D:\Desktop\TFG\website-analytics\scrapy_foller\chromedriver.log"])
 
-    def __del__(self):
-        self.driver.close()
-
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -105,7 +102,7 @@ class FollerDownloaderMiddleware(object):
         searchBar.send_keys(spider.searchName)
         time.sleep(1)
         searchBar.send_keys(Keys.RETURN)
-        
+
         try:
             WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[3]/div/div/div[2]/div/h1[text() != ""]')))
         except exceptions.TimeoutException:
@@ -113,6 +110,8 @@ class FollerDownloaderMiddleware(object):
 
         body = self.driver.page_source
         currentUrl = self.driver.current_url
+
+        self.driver.quit()
 
         return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)
 

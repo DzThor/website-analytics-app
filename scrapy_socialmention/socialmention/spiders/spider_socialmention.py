@@ -56,7 +56,7 @@ class SocialmentionSpider(CrawlSpider):
 
         socialIt['source'] = self.name
 
-        socialIt['name'] = response.xpath('//div[@id="column_middle"]/h2/b/text()').extract_first()
+        socialIt['name'] = self.searchName
         socialIt['platform'] = "Internet"
 
         creationdate = getattr(self, 'time', None)

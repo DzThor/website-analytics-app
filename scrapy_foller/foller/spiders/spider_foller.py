@@ -42,7 +42,7 @@ class FollerSpider(CrawlSpider):
         follerData = FollerItem()
         follerData['source'] = self.name
         follerData['platform'] = "Twitter"
-        follerData['name'] = response.xpath('/html/body/div[3]/div/div/div[2]/div/h1/text()').extract_first()
+        follerData['name'] = self.searchName
 
         creationdate = self.time
         if creationdate is not None:

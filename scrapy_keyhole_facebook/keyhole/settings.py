@@ -26,6 +26,7 @@ MONGODB_SERVER = "localhost"
 MONGODB_PORT = 27017
 MONGODB_DB = "website_analytics"
 MONGODB_COLLECTION = "scraped_data"
+#MONGODB_COLLECTION = "scraped_data_testing"
 
 # Date format
 
@@ -80,7 +81,8 @@ COOKIES_ENABLED = False
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     'keyhole.middlewares.KeyholeDownloaderMiddleware': 543,
-    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
+    'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400,
+    'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None
 }
 
 # Enable or disable extensions

@@ -26,6 +26,7 @@ MONGODB_SERVER = "localhost"
 MONGODB_PORT = 27017
 MONGODB_DB = "website_analytics"
 MONGODB_COLLECTION = "scraped_data"
+#MONGODB_COLLECTION = "scraped_data_testing"
 
 # Date format
 
