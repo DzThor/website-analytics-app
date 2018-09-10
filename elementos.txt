@@ -1,0 +1,30 @@
+Twitter:
+
+Followers
+Retweets
+avg likes/rt/eng rate
+Accounts reached
+impressions
+
+Facebook:
+
+(keyhole)
+Page Likes
+Avg Likes
+Avg Comments
+Avg Shares
+Avg Engagement
+
+(likealyzer)
+People talking bout this
+Frontpage/About/Activity/Response/Engagement
+% comparativo
+
+
+
+Internet:
+
+Strenght
+Reach
+Passion
+Sentiment
