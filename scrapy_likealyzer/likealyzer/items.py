@@ -16,11 +16,11 @@ class LikealyzerItem(scrapy.Item):
     date = scrapy.Field()
     summary = scrapy.Field()
     comments = scrapy.Field()
-    coverMetric = scrapy.Field()
-    aboutMetric = scrapy.Field()
-    activityMetric = scrapy.Field()
-    responseMetric = scrapy.Field()
-    compromiseMetric = scrapy.Field()
+    frontPage = scrapy.Field()
+    about = scrapy.Field()
+    activity = scrapy.Field()
+    response = scrapy.Field()
+    engagement = scrapy.Field()
     userPhotoAvailable = scrapy.Field()
     aboutAvailable = scrapy.Field()
     usernameAvailable = scrapy.Field()
@@ -28,7 +28,7 @@ class LikealyzerItem(scrapy.Item):
     contactInfoAvailable = scrapy.Field()
     #elementsUnavailable = scrapy.Field()
     #elementsAvailable = scrapy.Field()
-    
+
     phoneAvailable = scrapy.Field()
     websiteAvailable = scrapy.Field()
     emailAvailable = scrapy.Field()
@@ -45,8 +45,8 @@ class LikealyzerItem(scrapy.Item):
     usersCanPost = scrapy.Field()
     answerToUsersRatio = scrapy.Field()
     answerToUserResponseTime = scrapy.Field()
-    peopleInteracting = scrapy.Field()
-    totalLikes = scrapy.Field()
+    peopleTalking = scrapy.Field()
+    totalPageLikes = scrapy.Field()
     participationRatio = scrapy.Field()
 
 

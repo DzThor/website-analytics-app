@@ -68,18 +68,6 @@ class LikealyzerDownloaderMiddleware(object):
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
 
-    def __init__(self):
-
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--lang=en")
-        chrome_options.add_argument("--window-size=1920x1080")
-        chrome_options.add_argument("--mute-all")
-
-        LOGGER.setLevel(logging.WARNING)
-
-        self.driver = webdriver.Chrome(chrome_options=chrome_options)
-
     @classmethod
     def from_crawler(cls, crawler):
         # This method is used by Scrapy to create your spiders.
@@ -91,27 +79,35 @@ class LikealyzerDownloaderMiddleware(object):
         # Called for each request that goes through the downloader
         # middleware.
 
-        self.driver.get('https://likealyzer.com/?lang=es')
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--lang=en")
+        chrome_options.add_argument("--window-size=1920x1080")
+        chrome_options.add_argument("--mute-all")
+
+        LOGGER.setLevel(logging.WARNING)
+
+        driver = webdriver.Chrome(chrome_options=chrome_options)
+
+        driver.get('https://likealyzer.com/?lang=es')
         time.sleep(5)
 
         #deben ser páginas, no usuarios normales, ver como comprobarlo
 
-        searchBar = self.driver.find_element_by_xpath('//input')
+        searchBar = driver.find_element_by_xpath('//input')
         searchBar.send_keys(spider.searchName)
         time.sleep(3)
 
-        self.driver.find_element_by_xpath('(//div[@role="button" and @tabindex="-1"])[1]').click()
+        driver.find_element_by_xpath('(//div[@role="button" and @tabindex="-1"])[1]').click()
 
         time.sleep(15)
 
-        body = self.driver.page_source
-        currentUrl = self.driver.current_url
+        body = driver.page_source
+        currentUrl = driver.current_url
 
-        self.driver.quit()
+        driver.quit()
 
         return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)
-
-        #quiza comprobar si vuelve [] en process_response \/
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.

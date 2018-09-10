@@ -72,6 +72,14 @@ class FollerSpider(CrawlSpider):
         follerData['linked_domains_for_xtweets'] = response.xpath('normalize-space(//td[contains(text(),"Most linked domains")]/following-sibling::td[1])').extract()[0].replace(" ", "").split(",")
         follerData['twitter_clients_for_xtweets'] = response.xpath('normalize-space(//td[contains(text(),"Twitter clients usage")]/following-sibling::td[1])').extract()[0].split(",")
 
+        scheduleValues = []
+        timelabels = response.xpath('//div[@class="hours"]/div/span/text()').extract()
+        timeRows = response.xpath('//div[@class="hours"]/div/a/@data-original-title').extract()
+
+        for row in range(0,len(timelabels)):
+            scheduleValues.append([timelabels[row],timeRows[row].replace(" tweets", "").replace(" tweet","")])
+
+        follerData['tweetingSchedule'] = scheduleValues
         yield follerData
 
 

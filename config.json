@@ -1,5 +1,5 @@
 {
-    "search" : "Audi",
+    "SEARCH" : ["Audi"],
     "DATE_FORMAT" : "%Y-%m-%d %H:%M:%S.%f",
     "MONGODB_SERVER" : "localhost",
     "MONGODB_PORT" : 27017,

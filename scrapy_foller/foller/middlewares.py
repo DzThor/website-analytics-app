@@ -72,21 +72,6 @@ class FollerDownloaderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
-
-    def __init__(self):
-
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--lang=en")
-        chrome_options.add_argument("--window-size=1920x1080")
-        chrome_options.add_argument("--mute-all")
-
-        LOGGER.setLevel(logging.WARNING)
-
-        self.driver = webdriver.Chrome(chrome_options=chrome_options)
-        #self.driver = webdriver.Chrome(chrome_options=chrome_options, service_args=["--verbose", "--log-path=D:\Desktop\TFG\website-analytics\scrapy_foller\chromedriver.log"])
-
-
     @classmethod
     def from_crawler(cls, crawler):
         # This method is used by Scrapy to create your spiders.
@@ -96,22 +81,32 @@ class FollerDownloaderMiddleware(object):
 
     def process_request(self, request, spider):
 
-        self.driver.get('https://foller.me/')
 
-        searchBar = self.driver.find_element_by_xpath('/html/body/div[2]/div/div/form/input[1]')
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--lang=en")
+        chrome_options.add_argument("--window-size=1920x1080")
+        chrome_options.add_argument("--mute-all")
+
+        LOGGER.setLevel(logging.WARNING)
+
+        driver = webdriver.Chrome(chrome_options=chrome_options)
+        driver.get('https://foller.me/')
+
+        searchBar = driver.find_element_by_xpath('/html/body/div[2]/div/div/form/input[1]')
         searchBar.send_keys(spider.searchName)
         time.sleep(1)
         searchBar.send_keys(Keys.RETURN)
 
         try:
-            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[3]/div/div/div[2]/div/h1[text() != ""]')))
+            WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH,'/html/body/div[3]/div/div/div[2]/div/h1[text() != ""]')))
         except exceptions.TimeoutException:
             raise Exception('Unable to find text in this element after waiting 20 seconds')
 
-        body = self.driver.page_source
-        currentUrl = self.driver.current_url
+        body = driver.page_source
+        currentUrl = driver.current_url
 
-        self.driver.quit()
+        driver.quit()
 
         return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)
 

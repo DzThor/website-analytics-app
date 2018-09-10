@@ -58,11 +58,11 @@ class KeyholeSpider(CrawlSpider):
 
         likealyzer['summary'] = response.xpath('//div[@class="css-e80q00"]/span/text()').extract_first()
         likealyzer['comments'] = response.xpath('//ul[@class="css-6w6u3k"]/li/text()').extract()
-        likealyzer['coverMetric'] = response.xpath('//span[contains(text(),"Frontpage")]/following::span[1]/text()').extract_first().replace(" ","")
-        likealyzer['aboutMetric'] = response.xpath('//span[contains(text(),"About")]/following::span[1]/text()').extract_first().replace(" ","")
-        likealyzer['activityMetric'] = response.xpath('//span[contains(text(),"Activity")]/following::span[1]/text()').extract_first().replace(" ","")
-        likealyzer['responseMetric'] = response.xpath('//span[contains(text(),"Response")]/following::span[1]/text()').extract_first().replace(" ","")
-        likealyzer['compromiseMetric'] = response.xpath('//span[contains(text(),"Engagement")]/following::span[1]/span/text()').extract_first().replace(" ","")
+        likealyzer['frontPage'] = int(response.xpath('//span[contains(text(),"Frontpage")]/following::span[1]/text()').extract_first().replace(" ","").replace("%","").replace("N/A","0"))
+        likealyzer['about'] = int(response.xpath('//span[contains(text(),"About")]/following::span[1]/text()').extract_first().replace(" ","").replace("%","").replace("N/A","0"))
+        likealyzer['activity'] = int(response.xpath('//span[contains(text(),"Activity")]/following::span[1]/text()').extract_first().replace(" ","").replace("%","").replace("N/A","0"))
+        likealyzer['response'] = int(response.xpath('//span[contains(text(),"Response")]/following::span[1]/text()').extract_first().replace(" ","").replace("%","").replace("N/A","0"))
+        likealyzer['engagement'] = int(response.xpath('//span[contains(text(),"Engagement")]/following::span[1]/span/text()').extract_first().replace(" ","").replace("%","").replace("N/A","0"))
         likealyzer['userPhotoAvailable'] = response.xpath('//div[@class="css-1roshqv"]/span/text()')[0].extract() 
         likealyzer['aboutAvailable'] = response.xpath('//div[@class="css-1roshqv"]/span/text()')[2].extract() 
         likealyzer['usernameAvailable'] = response.xpath('//div[@class="css-1roshqv"]/span/text()')[1].extract() 
@@ -86,8 +86,8 @@ class KeyholeSpider(CrawlSpider):
         likealyzer['usersCanPost'] = response.xpath('//div[@class="css-16l7y04"]//div/span/text()')[0].extract()
         likealyzer['answerToUsersRatio'] = response.xpath('//div[@class="css-16l7y04"]//div/span/text()')[1].extract()
         likealyzer['answerToUserResponseTime'] = response.xpath('//div[@class="css-16l7y04"]//div/span/text()')[2].extract()
-        likealyzer['peopleInteracting'] = response.xpath('//div[@class="css-1l0nltk"]//div/span/text()')[0].extract()
-        likealyzer['totalLikes'] = response.xpath('//div[@class="css-1l0nltk"]//div/span/text()')[1].extract()
+        likealyzer['peopleTalking'] = int(response.xpath('//div[@class="css-1l0nltk"]//div/span/text()')[0].extract().replace(".",""))
+        likealyzer['totalPageLikes'] = int(response.xpath('//div[@class="css-1l0nltk"]//div/span/text()')[1].extract().replace(".",""))
         likealyzer['participationRatio'] = response.xpath('//div[@class="css-1l0nltk"]//div/span/text()')[2].extract()
 
         yield likealyzer

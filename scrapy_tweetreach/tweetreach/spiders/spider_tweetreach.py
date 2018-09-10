@@ -51,7 +51,7 @@ class TweetreachSpider(CrawlSpider):
         else:
             tw_item['date'] = datetime.datetime.strptime(str(datetime.datetime.now().isoformat()), settings['DATE_FORMAT'])
 
-        tw_item['estimated_reach'] = response.xpath('//div[@class="reach_score data_number"]/text()').extract_first()
-        tw_item['impressions'] =response.xpath('//div[@class="exposure_impressions data_number"]/text()').extract_first()
+        tw_item['accountsReached'] = int(response.xpath('//div[@class="reach_score data_number"]/text()').extract_first().replace(",",""))
+        tw_item['impressions'] =int(response.xpath('//div[@class="exposure_impressions data_number"]/text()').extract_first().replace(",",""))
         tw_item['top_contributors'] = response.xpath('//div[@class="number_box mini show_tooltip" or @class="info"]/span[@class = "number"]/text()').extract_first()
         yield tw_item

@@ -59,11 +59,11 @@ class KeyholeSpiderTwitter(CrawlSpider):
 
 
         keyhole['tweets'] = int(response.xpath('//div[@class="posts"]/p/text()').extract_first().replace(',',''))
-        keyhole['followers'] = int(response.xpath('//div[@class="followers"]/p/text()').extract_first().replace(',','').replace('.','').replace('m','0000'))
+        #keyhole['followers'] = int(response.xpath('//div[@class="followers"]/p/text()').extract_first().replace(',','').replace('.','').replace('m','0000'))
         keyhole['following'] = int(response.xpath('//div[@class="following"]/p/text()').extract_first().replace(',',''))
-        keyhole['avgRetweets'] = int(response.xpath('//div[@class="avg-likes"]/p/text()').extract_first().replace(',',''))
-        keyhole['avgLikes'] = int(response.xpath('//div[@class="avg-retweets"]/p/text()').extract_first().replace(',',''))
-        keyhole['engRate'] = float(response.xpath('//div[@class="avg-engRate"]/p/text()').extract_first()[:-1])
+        keyhole['averageRetweets'] = int(response.xpath('//div[@class="avg-likes"]/p/text()').extract_first().replace(',',''))
+        keyhole['averageLikesTwiiter'] = int(response.xpath('//div[@class="avg-retweets"]/p/text()').extract_first().replace(',',''))
+        keyhole['averageEngRate'] = float(response.xpath('//div[@class="avg-engRate"]/p/text()').extract_first()[:-1])
         keyhole['website'] = response.xpath('//a[@class="website"]/text()').extract_first()
 
 

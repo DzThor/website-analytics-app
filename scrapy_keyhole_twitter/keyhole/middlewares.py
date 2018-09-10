@@ -71,18 +71,6 @@ class KeyholeDownloaderMiddleware(object):
     # scrapy acts as if the downloader middleware does not modify the
     # passed objects.
 
-    def __init__(self):
-
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument("--lang=en")
-        chrome_options.add_argument("--window-size=1920x1080")
-        chrome_options.add_argument("--mute-all")
-
-        LOGGER.setLevel(logging.WARNING)
-
-        self.driver = webdriver.Chrome(chrome_options=chrome_options)
-
     @classmethod
     def from_crawler(cls, crawler):
         # This method is used by Scrapy to create your spiders.
@@ -94,37 +82,43 @@ class KeyholeDownloaderMiddleware(object):
         # Called for each request that goes through the downloader
         # middleware.
 
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--lang=en")
+        chrome_options.add_argument("--window-size=1920x1080")
+        chrome_options.add_argument("--mute-all")
 
-        self.driver.get('http://keyhole.co/')
+        LOGGER.setLevel(logging.WARNING)
+
+        driver = webdriver.Chrome(chrome_options=chrome_options)
+
+        driver.get('http://keyhole.co/')
 
 
         #self.driver.find_element_by_xpath('/html/body/div[1]/main/section[1]/div/div/div/div/a[2]').click()
-        self.driver.find_element_by_xpath('//a[text() = "@account"]').click()
+        driver.find_element_by_xpath('//a[text() = "@Accounts"]').click()
         time.sleep(4)
 
-        buttonTwitter = self.driver.find_element_by_xpath('//*[@id="twt_check" and contains(@name,"platform_acc")]')
+        buttonTwitter = driver.find_element_by_xpath('//*[@id="twt_check" and contains(@name,"platform_acc")]')
         buttonTwitter.click()
 
-        self.driver.find_element_by_xpath('//form[@class="account-tracking-form form-active"]/div/input[@id="search"]').click()
-        searchElement = self.driver.find_element_by_xpath('//form[@class="account-tracking-form form-active"]/div/input[@id="search"]')
+        driver.find_element_by_xpath('//form[@class="account-tracking-form form-active"]/div/input[@id="search"]').click()
+        searchElement = driver.find_element_by_xpath('//form[@class="account-tracking-form form-active"]/div/input[@id="search"]')
         searchElement.send_keys(spider.searchName)
         time.sleep(1)
 
-        self.driver.find_element_by_xpath('//input[@id="letsgo"]').click()
+        driver.find_element_by_xpath('//input[@id="letsgo"]').click()
 
         try:
-            WebDriverWait(self.driver, 20).until(EC.presence_of_element_located((By.XPATH,'//*[@id="account"]/div/div[1]/div[1]/div[2]/div/a/p[text() != ""]')))
+            WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH,'//*[@id="account"]/div/div[1]/div[1]/div[2]/div/a/p[text() != ""]')))
         except exceptions.TimeoutException:
             raise Exception('Unable to find text in this element after waiting 20 seconds')
 
-        body = self.driver.page_source
-        currentUrl = self.driver.current_url
-        self.driver.quit()
+        body = driver.page_source
+        currentUrl = driver.current_url
+        driver.quit()
 
         return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)
-
-
-
 
     def process_response(self, request, response, spider):
         # Called with the response returned from the downloader.

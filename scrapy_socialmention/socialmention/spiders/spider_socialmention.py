@@ -65,10 +65,10 @@ class SocialmentionSpider(CrawlSpider):
         else:
             socialIt['date'] = datetime.datetime.strptime(str(datetime.datetime.now().isoformat()), settings['DATE_FORMAT'])
 
-        socialIt['strengh'] = response.xpath('//div[@class="score"]/text()')[0].extract()
-        socialIt['sentimentRatio'] = response.xpath('//div[@class="score"]/text()')[1].extract()
-        socialIt['passion'] = response.xpath('//div[@class="score"]/text()')[2].extract()
-        socialIt['reach'] = response.xpath('//div[@class="score"]/text()')[3].extract()
+        socialIt['strength'] = int(response.xpath('//div[@class="score"]/text()')[0].extract())
+        socialIt['sentiment'] = int(response.xpath('//div[@class="score"]/text()')[1].extract().split(":")[0])
+        socialIt['passion'] = int(response.xpath('//div[@class="score"]/text()')[2].extract())
+        socialIt['reach'] = int(response.xpath('//div[@class="score"]/text()')[3].extract())
         socialIt['timePerMention'] = response.xpath('//div[@class="box grey text"]/text()')[0].extract()
         socialIt['lastMention'] = response.xpath('//div[@class="box grey text"]/text()')[1].extract()
         socialIt['uniqueAuthors'] = response.xpath('//div[@class="box grey text"]/text()')[2].extract()

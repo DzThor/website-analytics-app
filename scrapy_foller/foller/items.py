@@ -28,3 +28,4 @@ class FollerItem(scrapy.Item):
     media_for_xtweets = scrapy.Field()
     linked_domains_for_xtweets = scrapy.Field()
     twitter_clients_for_xtweets = scrapy.Field()
+    tweetingSchedule = scrapy.Field()

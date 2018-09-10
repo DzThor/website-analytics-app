@@ -48,7 +48,7 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 15
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
@@ -74,8 +74,8 @@ COOKIES_ENABLED = False
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'foller.middlewares.FollerDownloaderMiddleware': 543
-    #'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400
+    'foller.middlewares.FollerDownloaderMiddleware': 543,
+    'scrapy_fake_useragent.middleware.RandomUserAgentMiddleware': 400
 }
 
 # Enable or disable extensions

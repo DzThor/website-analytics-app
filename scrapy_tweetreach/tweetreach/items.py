@@ -13,6 +13,6 @@ class TweetreachItem(scrapy.Item):
    name = scrapy.Field()
    platform =scrapy.Field()
    date = scrapy.Field()
-   estimated_reach = scrapy.Field()
+   accountsReached = scrapy.Field()
    impressions = scrapy.Field()
    top_contributors = scrapy.Field()

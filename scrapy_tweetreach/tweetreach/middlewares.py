@@ -85,43 +85,33 @@ class TweetreachDownloaderMiddleware(object):
 
         driver = webdriver.Chrome(chrome_options=chrome_options)
 
-
         username = settings["TWITTER_ACCOUNT"]
         password = settings["TWITTER_PASS"]
 
-        print("\n")
-        print(request.url)
-        #driver.get('https://tweetreach.com/')
         driver.get(request.url)
         driver.find_element_by_xpath('//input[@class="search-form__input"]').click()
         searchElement = driver.find_element_by_xpath('//input[@class="search-form__input"]')
         searchElement.send_keys(spider.searchName)
-
-        time.sleep(2)
+        time.sleep(1)
 
         driver.find_element_by_xpath('//input[@class="search-form__button"]').click()
-
         time.sleep(5)
-
-
-        #Introducir cosas de twitter
 
         #usuario //*[@id="username_or_email"]
         searchElement = driver.find_element_by_xpath('//*[@id="username_or_email"]')
         searchElement.send_keys(username)
+        time.sleep(1)
         #pass //*[@id="password"]
         searchElement = driver.find_element_by_xpath('//*[@id="password"]')
         searchElement.send_keys(password)
 
         #boton //*[@id="allow"]
         driver.find_element_by_xpath('//*[@id="allow"]').click()
-
         time.sleep(10)
 
         body = driver.page_source
         currentUrl = driver.current_url
 
-        #driver.close()
         driver.quit()
 
         return HtmlResponse(currentUrl, body=body, encoding='utf-8', request=request)

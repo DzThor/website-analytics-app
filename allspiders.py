@@ -124,13 +124,17 @@ def main():
     with open('config.json', 'r') as f:
         config = json.load(f)
 
-    searchParameter = "-a searchname=" + config['search']
 
     for directory in directoriesToVisit:
-        with SpiderRunner(directory) as spider:
-            command = formatCommand(directory,starttime,searchParameter)
-            print(command)
-            #x = os.system(command)
+        for searchValue in config['SEARCH']:
+            searchParameter = "-a searchname=" + searchValue
+            with SpiderRunner(directory):
+                command = formatCommand(directory,starttime,searchParameter)
+                print(command)
+                os.system(command)
 
 if __name__ == "__main__":
     main()
+
+
+

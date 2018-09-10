@@ -56,9 +56,9 @@ class KeyholeSpiderFacebook(CrawlSpider):
 
 
         keyhole['pageLikes'] = int(response.xpath('//div[@class="page-likes"]/p/text()').extract_first().replace(',','').replace('.','').replace('m','0000'))
-        keyhole['avgLikes'] = int(response.xpath('//div[@class="avg-likes"]/p/text()').extract_first().replace(',',''))
-        keyhole['avgComments'] = int(response.xpath('//div[@class="avg-comments"]/p/text()').extract_first().replace(',',''))
-        keyhole['avgShares'] = int(response.xpath('//div[@class="avg-shares"]/p/text()').extract_first().replace(',',''))
-        keyhole['avgEngRate'] = float(response.xpath('//div[@class="avg-engRate"]/p/text()').extract_first()[:-1])
+        keyhole['averageLikesFacebook'] = int(response.xpath('//div[@class="avg-likes"]/p/text()').extract_first().replace(',',''))
+        keyhole['averageComments'] = int(response.xpath('//div[@class="avg-comments"]/p/text()').extract_first().replace(',',''))
+        keyhole['averageShares'] = int(response.xpath('//div[@class="avg-shares"]/p/text()').extract_first().replace(',',''))
+        keyhole['averageEngagement'] = float(response.xpath('//div[@class="avg-engRate"]/p/text()').extract_first()[:-1])
 
         yield keyhole

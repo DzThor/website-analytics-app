@@ -64,16 +64,6 @@
         </property>
        </spacer>
       </item>
-      <item>
-       <widget class="QSpinBox" name="spinBox">
-        <property name="maximum">
-         <number>30</number>
-        </property>
-        <property name="value">
-         <number>30</number>
-        </property>
-       </widget>
-      </item>
      </layout>
     </item>
     <item>
@@ -86,6 +76,22 @@
         <string>Twitter</string>
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QSpinBox" name="spinBoxTwitter">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximum">
+           <number>30</number>
+          </property>
+          <property name="value">
+           <number>30</number>
+          </property>
+         </widget>
+        </item>
         <item>
          <widget class="QScrollArea" name="TwitterScrollArea">
           <property name="focusPolicy">
@@ -112,7 +118,7 @@
              <x>0</x>
              <y>0</y>
              <width>834</width>
-             <height>531</height>
+             <height>502</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -159,6 +165,22 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <item>
+         <widget class="QSpinBox" name="spinBoxFacebook">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximum">
+           <number>30</number>
+          </property>
+          <property name="value">
+           <number>30</number>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QScrollArea" name="scrollArea">
           <property name="widgetResizable">
            <bool>true</bool>
@@ -168,8 +190,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>98</width>
-             <height>28</height>
+             <width>834</width>
+             <height>502</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -213,6 +235,22 @@
        </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_9">
         <item>
+         <widget class="QSpinBox" name="spinBoxInternet">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximum">
+           <number>30</number>
+          </property>
+          <property name="value">
+           <number>30</number>
+          </property>
+         </widget>
+        </item>
+        <item>
          <widget class="QScrollArea" name="scrollArea_2">
           <property name="widgetResizable">
            <bool>true</bool>
@@ -222,8 +260,8 @@
             <rect>
              <x>0</x>
              <y>0</y>
-             <width>98</width>
-             <height>28</height>
+             <width>834</width>
+             <height>502</height>
             </rect>
            </property>
            <property name="sizePolicy">
