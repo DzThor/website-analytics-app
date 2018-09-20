@@ -69,7 +69,7 @@
     <item>
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="TwitterTab">
        <attribute name="title">
@@ -118,7 +118,7 @@
              <x>0</x>
              <y>0</y>
              <width>834</width>
-             <height>502</height>
+             <height>528</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -191,7 +191,7 @@
              <x>0</x>
              <y>0</y>
              <width>834</width>
-             <height>502</height>
+             <height>528</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -261,7 +261,7 @@
              <x>0</x>
              <y>0</y>
              <width>834</width>
-             <height>502</height>
+             <height>528</height>
             </rect>
            </property>
            <property name="sizePolicy">
@@ -299,24 +299,6 @@
      </widget>
     </item>
    </layout>
-  </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>886</width>
-     <height>26</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menuArchivo">
-    <property name="title">
-     <string>Archivo</string>
-    </property>
-    <addaction name="actionCambiar_cuenta"/>
-    <addaction name="actionSalir"/>
-   </widget>
-   <addaction name="menuArchivo"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <action name="actionCambiar_cuenta">
