@@ -21,30 +21,30 @@ class WebsiteAnalytics(QObject):
         self.twitter = { "followers": "lines",
                          "averageLikesTwiiter": "lines",
                          "averageRetweets": "lines",
-                         "accountsReached": "bars",
-                         "impressions": "bars",
-                         "tweetingSchedule": "schedule",
-                         "averageEngRate": "percentage"
+        #                 "accountsReached": "bars",
+        #                 "impressions": "bars",
+        #                 "tweetingSchedule": "schedule",
+        #                 "averageEngRate": "percentage"
         }
-
-        self.facebook = { "totalPageLikes": "lines",
-                          "averageLikesFacebook": "lines",
-                          "averageComments": "lines",
-                          "averageShares": "lines",
-                          "peopleTalking": "bars",
-                          "averageEngagement": "percentage",
-                          "frontPage": "percentage",
-                          "activity": "percentage",
-                          "about": "percentage",
-                          "response": "percentage",
-                          "engagement": "percentage"
-        }
-
-        self.internet = { "strength": "percentage",
-                          "passion": "percentage",
-                          "reach": "percentage",
-                          "sentiment": "lines"
-        }
+#
+        #self.facebook = { "totalPageLikes": "lines",
+        #       "averageLikesFacebook": "lines",
+        #       "averageComments": "lines",
+        #       "averageShares": "lines",
+        #       "peopleTalking": "bars",
+        #       "averageEngagement": "percentage",
+        #       "frontPage": "percentage",
+        #       "activity": "percentage",
+        #       "about": "percentage",
+        #       "response": "percentage",
+        #       "engagement": "percentage"
+        #}
+#
+        #self.internet = { "strength": "percentage",
+        #       "passion": "percentage",
+        #       "reach": "percentage",
+        #       "sentiment": "lines"
+        #}
 
         with open('config.json', 'r') as f:
             config = json.load(f)
@@ -61,11 +61,8 @@ class WebsiteAnalytics(QObject):
         ui_file.close()
 
         boton1 = self.window.findChild(QSpinBox, "spinBoxTwitter")
-        boton1.setValue(len(self.datesWithData(self.DateSeriesMongoDB(self.calcultateFirstDate(30)), self.collection, "followers")))
         boton2 = self.window.findChild(QSpinBox, "spinBoxFacebook")
-        boton2.setValue(len(self.datesWithData(self.DateSeriesMongoDB(self.calcultateFirstDate(30)), self.collection, "totalPageLikes")))
         boton3 = self.window.findChild(QSpinBox, "spinBoxInternet")
-        boton3.setValue(len(self.datesWithData(self.DateSeriesMongoDB(self.calcultateFirstDate(30)), self.collection, "passion")))
 
         a = self.window.findChild(QVBoxLayout, "TwitterChartsVL")
 
@@ -73,29 +70,29 @@ class WebsiteAnalytics(QObject):
             a.addWidget(self.createChart(field,boton1.value(), self.twitter[field], self.collection))
 
         b = self.window.findChild(QVBoxLayout, "FacebookChartsVL")
-        for field in self.facebook:
-            b.addWidget(self.createChart(field,boton2.value(), self.facebook[field], self.collection))
+        #for field in self.facebook:
+        #    b.addWidget(self.createChart(field,boton2.value(), self.facebook[field], self.collection))
 
         c = self.window.findChild(QVBoxLayout, "InternetChartsVL")
-        for field in self.internet:
-            c.addWidget(self.createChart(field,boton3.value(), self.internet[field], self.collection))
+        #for field in self.internet:
+        #    c.addWidget(self.createChart(field,boton3.value(), self.internet[field], self.collection))
 
-        boton1.valueChanged.connect(lambda: self.valueChanged(boton1.value(),a,self.collection, self.twitter))
-        boton2.valueChanged.connect(lambda: self.valueChanged(boton2.value(),b,self.collection, self.facebook))
-        boton3.valueChanged.connect(lambda: self.valueChanged(boton3.value(),c,self.collection, self.internet))
+        boton1.valueChanged.connect(lambda: self.valueChanged(boton1.value(),a,self.collection))
+        boton2.valueChanged.connect(lambda: self.valueChanged(boton2.value(),b,self.collection))
+        boton3.valueChanged.connect(lambda: self.valueChanged(boton3.value(),c,self.collection))
 
         self.setIcons()
 
         self.window.show()
 
-    def valueChanged(self, days, layout, db, elements):
+    def valueChanged(self, days, layout, db):
         #items = [layout.itemAt(index) for index in range(layout.count())]
 
         for idx in reversed(range(layout.count())):
             layout.itemAt(idx).widget().setParent(None)
 
-        for field in elements:
-            layout.addWidget(self.createChart(field,days, elements[field], db))
+        for field in self.twitter:
+            layout.addWidget(self.createChart(field,days, self.twitter[field], db))
 
 
     def createChart(self, title, days, type, db):
@@ -106,15 +103,13 @@ class WebsiteAnalytics(QObject):
 
         if(type == "lines"):
             datesLookUp = self.DateSeriesMongoDB(self.calcultateFirstDate(days))
-            datesAvailable = self.datesWithData(datesLookUp, db, title)
 
             series = []
 
             for name in names:
                 newSeries = QtCharts.QLineSeries()
                 newSeries.setName(name)
-                #series.append(self.fillLineSeries(newSeries, datesLookUp, db, title))
-                series.append(self.fillLineSeries(newSeries, datesAvailable, db, title,name))
+                series.append(self.fillLineSeries(newSeries, datesLookUp, db, title))
 
 
             chart = QtCharts.QChart()
@@ -123,10 +118,7 @@ class WebsiteAnalytics(QObject):
 
             chart.setTitle(title)
 
-            #datesAxis = self.calculateDateSeries(self.calcultateFirstDate(days))
-            print(datesAvailable)
-            datesAxis = [dt.strftime("%m-%d") for dt in datesAvailable]
-            print(datesAxis)
+            datesAxis = self.calculateDateSeries(self.calcultateFirstDate(days))
             chart.createDefaultAxes()
             axisX = QtCharts.QBarCategoryAxis()
             axisY = QtCharts.QValueAxis()
@@ -148,14 +140,12 @@ class WebsiteAnalytics(QObject):
         elif(type == "bars"):
 
             datesLookUp = self.DateSeriesMongoDB(self.calcultateFirstDate(days))
-            datesAvailable = self.datesWithData(datesLookUp, db, title)
 
             series = []
 
             for name in names:
                 newSeries = QtCharts.QBarSet(name)
-                #series.append(self.fillBarSeries(newSeries, datesLookUp, db, title))
-                series.append(self.fillBarSeries(newSeries, datesAvailable, db, title, name))
+                series.append(self.fillBarSeries(newSeries, datesLookUp, db, title))
 
             chart = QtCharts.QChart()
             barSeries = QtCharts.QBarSeries()
@@ -165,8 +155,7 @@ class WebsiteAnalytics(QObject):
             chart.setTitle(title)
             chart.addSeries(barSeries)
 
-            #datesAxis = self.calculateDateSeries(self.calcultateFirstDate(days))
-            datesAxis = [dt.strftime("%m-%d") for dt in datesAvailable]
+            datesAxis = self.calculateDateSeries(self.calcultateFirstDate(days))
             chart.createDefaultAxes()
 
             axisX = QtCharts.QBarCategoryAxis()
@@ -187,16 +176,13 @@ class WebsiteAnalytics(QObject):
         elif(type == "percentage"):
 
             datesLookUp = self.DateSeriesMongoDB(self.calcultateFirstDate(days))
-            datesAvailable = self.datesWithData(datesLookUp, db, title)
-            #datesAxis = self.calculateDateSeries(self.calcultateFirstDate(days))
-            datesAxis = [dt.strftime("%m-%d") for dt in datesAvailable]
+            datesAxis = self.calculateDateSeries(self.calcultateFirstDate(days))
 
             series = []
 
             for name in names:
                 newSeries = QtCharts.QBarSet(name)
-                #series.append(self.fillBarSeries(newSeries, datesLookUp, db, title))
-                series.append(self.fillBarSeries(newSeries, datesAvailable, db, title, name))
+                series.append(self.fillBarSeries(newSeries, datesLookUp, db, title))
 
             if(len(names) == 1):
                 filler = QtCharts.QBarSet("")
@@ -230,13 +216,11 @@ class WebsiteAnalytics(QObject):
         elif(type == "schedule"):
 
             datesLookUp = self.DateSeriesMongoDB(self.calcultateFirstDate(days))
-            datesAvailable = self.datesWithData(datesLookUp, db, title)
             series = []
 
             for name in names:
                 newSeries = QtCharts.QBarSet(name)
-                #series.append(self.fillScheduleSeries(newSeries, datesLookUp, db, title))
-                series.append(self.fillScheduleSeries(newSeries, datesAvailable, db, title, name))
+                series.append(self.fillScheduleSeries(newSeries, datesLookUp, db, title))
 
             chart = QtCharts.QChart()
             barSeries = QtCharts.QBarSeries()
@@ -244,8 +228,7 @@ class WebsiteAnalytics(QObject):
                 barSeries.append(serie)
 
             chart.setTitle(title)
-            #datesAxis = self.scheduleAxis(newSeries, datesLookUp, db, title)
-            datesAxis = self.scheduleAxis(newSeries, datesAvailable, db, title)
+            datesAxis = self.scheduleAxis(newSeries, datesLookUp, db, title)
             chart.addSeries(barSeries)
 
             chart.createDefaultAxes()
@@ -270,23 +253,19 @@ class WebsiteAnalytics(QObject):
 
 # TODO : Los axis sean fechas de la bd, no generadas.
 
-    def fillLineSeries(self, series, dateseries, db, title, name):
+    def fillLineSeries(self, series, dateseries, db, title):
 
-        print(title)
-        records = db.find({ "date": { '$gte': dateseries[0], '$lte': dateseries[-1]}, title : {"$exists": True}, "name" : name},{title : 1, '_id' : False})
+        records = db.find({ "date": { '$gte': dateseries[0], '$lt': dateseries[-1]}},{title : 1, '_id' : False})
         values = [int(value[title]) if value else 0 for value in records]
-        print(values)
 
         for idx in range(len(dateseries)):
-            print(idx)
-            print(values[idx])
             series.append(idx, values[idx])
 
         return series
 
-    def fillBarSeries(self, series, dateseries, db, title, name):
-        print(title)
-        records = db.find({ "date": { '$gte': dateseries[0], '$lte': dateseries[-1]},title : {"$exists": True}, "name" : name},{title : 1, '_id' : False})
+    def fillBarSeries(self, series, dateseries, db, title):
+
+        records = db.find({ "date": { '$gte': dateseries[0], '$lt': dateseries[-1]}},{title : 1, '_id' : False})
         values = [int(value[title]) if value else 0 for value in records]
 
         series.append(values)
@@ -295,12 +274,12 @@ class WebsiteAnalytics(QObject):
 
     def datesWithData(self, dateseries, db, title):
         records = db.find({ "date": { '$gte': dateseries[0], '$lt': dateseries[-1]}, title : {"$exists" : True}},{"date" : 1, '_id' : False}).limit(len(dateseries)).sort("date", 1).distinct("date")
-        print(list(records))
+        #return [dt.strftime("%m-%d") for dt in list(records)]
         return list(records)
 
-    def fillScheduleSeries(self, series, dateseries, db, title, name):
+    def fillScheduleSeries(self, series, dateseries, db, title):
 
-        records = db.find({ "date": { '$gte': dateseries[0], '$lt': dateseries[-1]},title : {"$exists": True}, "name" : name},{title : 1, '_id' : False}).sort("date", -1).limit(1)
+        records = db.find({ "date": { '$gte': dateseries[0], '$lt': dateseries[-1]}},{title : 1, '_id' : False}).sort("date", -1).limit(1)
         values = [value[title] if value else 0 for value in records].pop(0)
 
         innerValues = [int(counter[1]) for counter in values]
