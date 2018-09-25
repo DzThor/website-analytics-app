@@ -95,8 +95,7 @@ def caca():
         config = json.load(f)
 
     searchParameter = "-a searchname=" + config['search']
-    #while directoriesToVisit:
-    #    print(directoriesToVisit)
+
     for directory in directoriesToVisit:
 
         if(dbchecker.itemExists(directory,actualtime,searchParameter)):
@@ -109,11 +108,6 @@ def caca():
             if(dbchecker.itemExists(directory,actualtime,searchParameter)):
                 print('\n')
                 print(directory)
-                print("ENCONTRADO JAJA")
-                print('\n')
-                    #directoriesToVisit.remove(directory)
-                #else:
-                #    time.sleep(60)
 
 def main():
 
